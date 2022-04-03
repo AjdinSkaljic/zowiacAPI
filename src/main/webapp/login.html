@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>ZOWIAC</title>
+</head>
+<body class="h-100 w-100">
+<section class="h-100 w-100" style="background-color: #D1D2BA;">
+    <form method="POST" action="j_security_check">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5">
+
+                            <h3 class="mb-5">ZOWIAC</h3>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="typeEmailX">Email</label>
+                                <input type="text" id="typeEmailX" class="form-control form-control-lg"
+                                       name="j_username" style="background-color: white !important; border: 1px solid black; "/>
+
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="typePasswordX">Passwort</label>
+                                <input type="password" id="typePasswordX" class="form-control form-control-lg"
+                                       name="j_password" style="background-color: white !important; border: 1px solid black; "/>
+
+                            </div>
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit"
+                                    style="background-color:black; ">
+                                Anmelden
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

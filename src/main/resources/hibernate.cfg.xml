@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:mysql://127.0.01:3306/zowiac_map</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <mapping class="com.zowiac.model.ReportEntity"/>
+        <mapping class="com.zowiac.model.AnimalEntity"/>
+        <mapping class="com.zowiac.model.EvidenceTypeEntity"/>
+        <mapping class="com.zowiac.model.TextEntity"/>
+        <mapping class="com.zowiac.model.ShootingSeasonEntity"/>
+        <mapping class="com.zowiac.model.AuthorityEntity"/>
+        <mapping class="com.zowiac.model.HideEntity"/>
+        <mapping class="com.zowiac.model.HideTypeEntity"/>
+        <mapping class="com.zowiac.model.UserEntity"/>
+        <mapping class="com.zowiac.model.FeedbackEntity"/>
+        <mapping class="com.zowiac.model.FilesEntity"/>
+
+    </session-factory>
+</hibernate-configuration>

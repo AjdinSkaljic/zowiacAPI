@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.js"></script>
+
+</head>
+
+
+
+<body>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>PLZ</th>
+                <th>Mail</th>
+                <th>Tel</th>
+                <th>Web</th>
+            </tr>
+        </thead>
+    </table>
+
+</body>
+
+
+</html>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "processing": true,
+            "serverSide": true,
+
+            "ajax": { "url": "http://localhost/zowiac_war_exploded/api/public/authorities", "dataSrc": "" },
+            columns: [{ "data": "name" }, { "data": "postalCode" }, { "data": "mail" }, { "data": "phone" }, { "data": "web" }]
+        });
+    });
+</script>
