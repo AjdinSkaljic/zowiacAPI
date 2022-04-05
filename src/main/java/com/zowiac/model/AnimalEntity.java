@@ -6,11 +6,9 @@ import javax.persistence.*;
 @Table(name = "animals", schema = "zowiac_map")
 public class AnimalEntity {
 
-
     public final static String REPORT_TYPE_ZOWIAC = "J";
     public final static String REPORT_TYPE_HUNTING = "H";
     public final static String REPORT_TYPE_OBSERVER = "O";
-
 
     @Id
     @GeneratedValue
@@ -106,7 +104,6 @@ public class AnimalEntity {
         this.category = category;
     }
 
-
     public boolean isAllowReport() {
         return (this.allowReport != null && this.allowReport.equals("J"));
     }
@@ -147,26 +144,24 @@ public class AnimalEntity {
         this.reportType = reportType;
     }
 
-
     public Long getParentId() {
         return parentId;
     }
+
+
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-
     public String getParentName() {
-        if (parentAnimal != null)
-            return parentAnimal.getName();
+        if (parentAnimal != null) return parentAnimal.getName();
         return "";
     }
 
     public String getFullname() {
         String name = getName();
-        if (parentAnimal != null)
-            name = getParentName() + " - " + parentAnimal.getName();
+        if (parentAnimal != null) name = getParentName() + " - " + parentAnimal.getName();
         return name;
     }
 }

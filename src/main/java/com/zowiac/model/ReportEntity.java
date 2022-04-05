@@ -55,6 +55,9 @@ public class ReportEntity {
     @Column(name = "hunting_hide")
     private Long huntingHide;
     @Basic
+    @Column(name = "hunting_radius")
+    private Double huntingRadius;
+    @Basic
     @Column(name = "count")
     private int count;
     @Basic
@@ -91,8 +94,13 @@ public class ReportEntity {
     @Basic
     @Column(name = "deleted")
     private String deleted;
+    @Basic
+    @Column(name = "sub_animal_id")
+    private Long subAnimalId;
+
 
     private transient AnimalEntity animalEntity;
+    private transient AnimalEntity subAnimalEntity;
     private transient EvidenceTypeEntity evidenceTypeEntity;
     private transient String huntingHideName;
     private transient UserEntity userEntity;
@@ -179,13 +187,9 @@ public class ReportEntity {
     }
 
     public void setHunting(String hunting) {
-        if (hunting != null && hunting.length() > 1)
-            if (hunting.equals("true"))
-                this.hunting = "J";
-            else
-                this.hunting = "N";
-        else
-            this.hunting = hunting;
+        if (hunting != null && hunting.length() > 1) if (hunting.equals("true")) this.hunting = "J";
+        else this.hunting = "N";
+        else this.hunting = hunting;
     }
 
     public int getCount() {
@@ -278,9 +282,23 @@ public class ReportEntity {
         this.animalEntity = animalEntity;
     }
 
+    @JsonIgnore
+    public AnimalEntity getSubAnimalEntity() {
+        return subAnimalEntity;
+    }
+
+    @JsonIgnore
+    public void setSubAnimalEntity(AnimalEntity subAnimalEntity) {
+        this.subAnimalEntity = subAnimalEntity;
+    }
+
     public String getAnimalName() {
-        if (getAnimalEntity() != null)
-            return getAnimalEntity().getName();
+        if (getAnimalEntity() != null) return getAnimalEntity().getName();
+        return "";
+    }
+
+    public String getSubAnimalName() {
+        if (getSubAnimalEntity() != null) return getSubAnimalEntity().getName();
         return "";
     }
 
@@ -295,14 +313,12 @@ public class ReportEntity {
     }
 
     public String getEvidenceTypeName() {
-        if (getEvidenceTypeEntity() != null)
-            return getEvidenceTypeEntity().getName();
+        if (getEvidenceTypeEntity() != null) return getEvidenceTypeEntity().getName();
         return "";
     }
 
     public String getUserName() {
-        if (getUserEntity() != null)
-            return getUserEntity().getNameCombined();
+        if (getUserEntity() != null) return getUserEntity().getNameCombined();
         return "";
     }
 
@@ -346,5 +362,21 @@ public class ReportEntity {
     @JsonIgnore
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
+    }
+
+    public Long getSubAnimalId() {
+        return subAnimalId;
+    }
+
+    public void setSubAnimalId(Long subAnimalId) {
+        this.subAnimalId = subAnimalId;
+    }
+
+    public Double getHuntingRadius() {
+        return huntingRadius;
+    }
+
+    public void setHuntingRadius(Double huntingRadius) {
+        this.huntingRadius = huntingRadius;
     }
 }

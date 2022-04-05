@@ -55,6 +55,9 @@ public class ReportService {
 
         reportEntityList.forEach(reportEntity -> {
             reportEntity.setAnimalEntity(animalMap.get(reportEntity.getAnimalId()));
+            if (reportEntity.getSubAnimalId() != null)
+                reportEntity.setSubAnimalEntity(animalMap.get(reportEntity.getSubAnimalId()));
+
             reportEntity.setEvidenceTypeEntity(evidenceTypeMap.get(reportEntity.getEvidenceType()));
             if (reportEntity.getHuntingHide() != null) {
                 HideEntity hide = hideMap.get(reportEntity.getHuntingHide());
@@ -76,7 +79,6 @@ public class ReportService {
     }
 
     public ReportEntity find(Long id) {
-
         return getReportRepository().findById(id).orElseGet(null);
     }
 

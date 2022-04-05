@@ -31,7 +31,10 @@ public class ShootingSeasonService {
         if (shootingSeasonList != null)
             shootingSeasonList.forEach(shootingSeason -> {
                 if (shootingSeason.getAnimal().getParentId() != null && shootingSeason.getAnimal().getParentAnimal() == null) {
-                    shootingSeason.getAnimal().setParentAnimal(getAnimalRepository().findById(shootingSeason.getAnimal().getParentId()).get());
+                    try {
+                        shootingSeason.getAnimal().setParentAnimal(getAnimalRepository().findById(shootingSeason.getAnimal().getParentId()).get());
+                    } catch (Exception ignore) {
+                    }
                 }
 
             });

@@ -60,6 +60,7 @@ Ext.define('zowiac.view.report.ReportList', {
         dataIndex: 'id',
         width: 80
     }, {text: 'Tier', dataIndex: 'animalName', flex: 1},
+        {text: 'Unterart', dataIndex: 'subAnimalName', flex: 1},
         {text: 'Art der Sichtung', dataIndex: 'evidenceTypeName', flex: 1},
         {text: 'Anzahl', dataIndex: 'count', flex: 1},
         {
@@ -83,7 +84,10 @@ Ext.define('zowiac.view.report.ReportList', {
                 return Ext.Date.format(dt, 'H:i');
             },
             flex: 1
+
         },
+
+
         {text: 'Benutzername', dataIndex: 'userName', flex: 1},
         {text: 'Benutzer', dataIndex: 'user', flex: 1, hidden: true},
         {text: 'Standort', dataIndex: 'adressLine', flex: 1},
@@ -91,6 +95,7 @@ Ext.define('zowiac.view.report.ReportList', {
         {text: 'PLZ', dataIndex: 'postalCode', flex: 1},
         {text: 'Latitude', dataIndex: 'latitude', flex: 1},
         {text: 'Longitude', dataIndex: 'longitude', flex: 1},
+        {text: 'Jagdradius in km', dataIndex: 'huntingRadius', flex: 1, hidden: true},
         {text: 'Land', dataIndex: 'country', flex: 1},
         {text: 'Code', dataIndex: 'countryCode', flex: 1},
         {text: 'Strasse', dataIndex: 'street', flex: 1},
