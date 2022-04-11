@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -23,8 +24,10 @@ public class AnimalService {
         List<AnimalEntity> animalEntities;
         if (reportType == null)
             animalEntities = getAnimalRepository().findOnlyForReporting();
-        else
+        else {
             animalEntities = getAnimalRepository().findByReportType(reportType);
+            animalEntities = animalEntities.stream().filter(animal-> animal.getParentId() == null).collect(Collectors.toList());
+        }
         setParentAniamls(animalEntities);
 
         animalEntities.sort(Comparator.comparing(AnimalEntity::getFullname));
