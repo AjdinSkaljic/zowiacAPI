@@ -1,5 +1,6 @@
 package com.zowiac.controller;
 
+import com.zowiac.commons.BusinessException;
 import com.zowiac.model.*;
 import com.zowiac.service.*;
 import org.apache.commons.io.IOUtils;
@@ -73,7 +74,11 @@ public class AppController {
     @GetMapping("/public/forgotPassword/{user}/")
     @ResponseBody
     public String forgotPassword(@PathVariable(name = "user") String user) throws Exception {
-        getUserService().forgotPassword(user);
+        try {
+            getUserService().forgotPassword(user);
+        } catch (BusinessException e) {
+            return "error";
+        }
         return "ok";
     }
 
@@ -204,6 +209,40 @@ public class AppController {
     public List<AuthorityEntity> findAllWebAuthorities(HttpServletRequest request) {
         String param = request.getParameter("search[value]");
         return getAuthorityService().findAllWithPermittedPhone(param);
+    }
+
+
+    @GetMapping(path = "/public/evidences/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<EvidenceTypeEntity> findAllEvidences() {
+        return getReportService().getEvidenceTypeRepository().findAll();
+    }
+
+    @GetMapping(path = "/public/animals/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    public List<AnimalEntity> findAllAnimalsPublic() {
+        return getAnimalService().findOnlyReporting(AnimalEntity.REPORT_TYPE_ZOWIAC);
+    }
+
+
+    @PostMapping("/public/report")
+    @ResponseBody
+    public ReportEntity savePublic(@RequestBody ReportEntity report) {
+        getReportService().save(report);
+        return report;
+    }
+
+
+    @PostMapping("/public/files/report/{originId}")
+    public @ResponseBody
+    String saveReportFilePublic(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
+        try {
+            FilesEntity filesEntity = createFileEntityFromRequest(file);
+            getFilesService().saveReportFile(filesEntity, originId);
+        } catch (Exception e) {
+            //do nothing
+        }
+        return "Ok";
     }
 
 

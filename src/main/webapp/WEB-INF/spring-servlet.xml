@@ -54,14 +54,17 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="newsforschools.eu"/>
-        <property name="username" value="admin@newsforschools.eu"/>
-        <property name="password" value="n4sAd21!#"/>
+        <property name="host" value="smtp.strato.de"/>
+        <property name="username" value="info@zowiac.eu"/>
+        <property name="password" value="A4yimdjYk2ySX9q"/>
         <property name="javaMailProperties">
             <props>
+                <prop key="mail.transport.protocol">smtps</prop>
+                <prop key="mail.smtp.port">587</prop>
                 <prop key="mail.smtp.auth">true</prop>
                 <prop key="mail.smtp.starttls.enable">true</prop>
-                <prop key="mail.debug">false</prop>
+                <prop key="mail.smtp.starttls.required">true</prop>
+                <prop key="mail.debug">true</prop>
             </props>
         </property>
     </bean>

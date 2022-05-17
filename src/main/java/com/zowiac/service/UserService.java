@@ -20,6 +20,7 @@ public class UserService {
     private final UserRolesRepository userRolesRepository;
     private final EmailService emailService;
 
+
     @Autowired
     public UserService(UserRepository userRepository, UserRolesRepository userRolesRepository, EmailService emailService) {
         this.userRepository = userRepository;
@@ -69,28 +70,32 @@ public class UserService {
     }
 
     public void forgotPassword(String user) throws Exception {
-        UserEntity userEntity = getUserRepository().findById(user).get();
-        String pwd = RandomString.getRundomString();
-        userEntity.setUserPass(convertPwd(pwd));
+        try {
+            UserEntity userEntity = getUserRepository().findById(user).get();
+            String pwd = RandomString.getRundomString();
+            userEntity.setUserPass(convertPwd(pwd));
 
-        getUserRepository().saveAndFlush(userEntity);
+            getUserRepository().saveAndFlush(userEntity);
 
-        String to = userEntity.getUsername();
+            String to = userEntity.getUsername();
 
-        String subject = "Ihre Passwort für ZOWIAC";
-        String text = "Hallo, \n\n"
-                + "Sie haben ein neues Passwort angefordert, das wir Ihnen mit dieser\n"
-                + "E-Mail zusenden. Bitte nutzen Sie dies nur für Ihr nächstes Login.\n"
-                + "Aus Sicherheitsgründen sollten Sie das Passwort sofort nach dem\n"
-                + "Einloggen ändern.\n\n"
-                + "Ihr neues Passwort lautet: "
-                + pwd
-                + "\n"
-                + "(Bitte beachten Sie bei der Eingabe die Groß- und Kleinschreibung).\n\n"
-                + "Mit freundlichen Grüssen"
-                + "\n Ihre\n ZOWIAC";
+            String subject = "Ihre Passwort für ZOWIAC";
+            String text = "Hallo, \n\n"
+                    + "Sie haben ein neues Passwort angefordert, das wir Ihnen mit dieser\n"
+                    + "E-Mail zusenden. Bitte nutzen Sie dies nur für Ihr nächstes Login.\n"
+                    + "Aus Sicherheitsgründen sollten Sie das Passwort sofort nach dem\n"
+                    + "Einloggen ändern.\n\n"
+                    + "Ihr neues Passwort lautet: "
+                    + pwd
+                    + "\n"
+                    + "(Bitte beachten Sie bei der Eingabe die Groß- und Kleinschreibung).\n\n"
+                    + "Mit freundlichen Grüssen"
+                    + "\n Ihre\n ZOWIAC";
 
-        emailService.sendMail(to, subject, text);
+            emailService.sendMail(to, subject, text);
+        } catch (Exception e) {
+            throw new BusinessException("Benutzer " + user + " ist unbekannt.");
+        }
     }
 
     public void lockUser(String user) {
