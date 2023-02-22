@@ -24,4 +24,27 @@ Update  zowiac_map.shooting_seasons set state = 'BU' where state = ''
 
 ToDO:
 
+CREATE TABLE `orders` (
+                          `id` int NOT NULL AUTO_INCREMENT,
+                          `name` varchar(256) default NULL,
+                          `street` varchar(256) default NULL,
+                          `zip` varchar(16) default NULL,
+                          `city` varchar(256) default NULL,
+                          `count_visitors` int default NULL,
+                          `count_posters` int default NULL,
+                          `receipt_id` int default NULL,
+                          `remark` varchar(512) default NULL,
+                          `create_datetime` datetime DEFAULT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 ;
+
+
+
+CREATE TABLE `order_positions` (
+                                   `id` int NOT NULL AUTO_INCREMENT,
+                                   `order_id` int NOT NULL,
+                                   `type` VARCHAR(1) NOT NULL,
+                                   `name` varchar(256) default NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 ;
 

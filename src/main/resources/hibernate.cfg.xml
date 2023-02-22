@@ -17,6 +17,8 @@
         <mapping class="com.zowiac.model.UserEntity"/>
         <mapping class="com.zowiac.model.FeedbackEntity"/>
         <mapping class="com.zowiac.model.FilesEntity"/>
+        <mapping class="com.zowiac.model.OrderEntity"/>
+        <mapping class="com.zowiac.model.OrderPositionEntity"/>
 
     </session-factory>
 </hibernate-configuration>
