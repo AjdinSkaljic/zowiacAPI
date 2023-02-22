@@ -43,36 +43,36 @@ Ext.define('zowiac.view.seasons.ShootingSeasonForm', {
         msgTarget: 'under'
     }, {
         xtype: 'datefield',
-        fieldLabel: 'Von 1',
+        fieldLabel: 'Jagdperiode 1 von',
         name: 'dateFrom',
-        allowBlank: false,
+        allowBlank: true,
         format: 'd.m',
         labelWidth: 120,
         width: '100%',
         msgTarget: 'under'
     }, {
         xtype: 'datefield',
-        fieldLabel: 'Bis 1',
+        fieldLabel: 'Jagdperiode 1 bis',
         name: 'dateTo',
-        allowBlank: false,
+        allowBlank: true,
         format: 'd.m',
         labelWidth: 120,
         width: '100%',
         msgTarget: 'under'
     }, {
         xtype: 'datefield',
-        fieldLabel: 'Von 2',
+        fieldLabel: 'Jagdperiode 2 von',
         name: 'dateFrom1',
-        allowBlank: false,
+        allowBlank: true,
         format: 'd.m',
         labelWidth: 120,
         width: '100%',
         msgTarget: 'under'
     }, {
         xtype: 'datefield',
-        fieldLabel: 'Bis 2',
+        fieldLabel: 'Jagdperiode 2 bis',
         name: 'dateTo1',
-        allowBlank: false,
+        allowBlank: true,
         format: 'd.m',
         labelWidth: 120,
         width: '100%',

@@ -79,7 +79,7 @@ public class UserService {
 
             String to = userEntity.getUsername();
 
-            String subject = "Ihre Passwort für ZOWIAC";
+            String subject = "Ihr Passwort für ZOWIAC";
             String text = "Hallo, \n\n"
                     + "Sie haben ein neues Passwort angefordert, das wir Ihnen mit dieser\n"
                     + "E-Mail zusenden. Bitte nutzen Sie dies nur für Ihr nächstes Login.\n"

@@ -63,28 +63,28 @@ Ext.define('zowiac.view.seasons.ShootingSeasonList', {
             return st;
         }
     }, {
-        text: 'Von 1',
+        text: 'Jagdperiode 1 von',
         dataIndex: 'dateFrom',
         flex: 1,
         renderer: function (dt) {
             return Ext.Date.format(dt, 'd.m');
         }
     }, {
-        text: 'Bis 1',
+        text: 'Jagdperiode 1 bis',
         dataIndex: 'dateTo',
         flex: 1,
         renderer: function (dt) {
             return Ext.Date.format(dt, 'd.m');
         }
     }, {
-        text: 'Von 2',
+        text: 'Jagdperiode 2 von',
         dataIndex: 'dateFrom1',
         flex: 1,
         renderer: function (dt) {
             return Ext.Date.format(dt, 'd.m');
         }
     }, {
-        text: 'Bis 2',
+        text: 'Jagdperiode 2 bis',
         dataIndex: 'dateTo1',
         flex: 1,
         renderer: function (dt) {

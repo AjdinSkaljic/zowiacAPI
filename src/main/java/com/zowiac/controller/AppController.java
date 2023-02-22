@@ -139,6 +139,8 @@ public class AppController {
             getFilesService().saveReportFile(filesEntity, originId);
         } catch (Exception e) {
             //do nothing
+            e.printStackTrace();
+
         }
         return "Ok";
     }

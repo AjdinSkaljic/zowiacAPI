@@ -2,7 +2,9 @@ package com.zowiac.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.zowiac.commons.Convertor;
+import com.zowiac.commons.SqlDateDesrialize;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,15 +17,19 @@ public class ShootingSeasonEntity {
     @Column(name = "id")
     private Long id;
     @Basic
+    @JsonDeserialize(using = SqlDateDesrialize.class)
     @Column(name = "date_from")
     private Date dateFrom;
     @Basic
+    @JsonDeserialize(using = SqlDateDesrialize.class)
     @Column(name = "date_to")
     private Date dateTo;
     @Basic
+    @JsonDeserialize(using = SqlDateDesrialize.class)
     @Column(name = "date_from1")
     private Date dateFrom1;
     @Basic
+    @JsonDeserialize(using = SqlDateDesrialize.class)
     @Column(name = "date_to1")
     private Date dateTo1;
     @Basic

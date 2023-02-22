@@ -33,12 +33,22 @@ Ext.define('zowiac.view.feedback.FeedbackList', {
         text: 'Löschen',
         iconCls: 'fa fa-trash',
         handler: 'onDelete'
+    }, {
+        xtype: 'button',
+        text: 'Anzeigen',
+        iconCls: 'fa fa-eye',
+        handler: 'onDisplay'
     }],
 
     columns: [{
         text: 'Kommentar',
         dataIndex: 'text',
-        flex: 3
+        flex: 3,
+
+        renderer: function (value, metaData, record, rowIdx, colIdx, store) {
+            metaData.tdAttr = 'data-qtip="' + value + '"';
+            return value;
+        }
     }, {
         text: 'Status',
         dataIndex: 'status',

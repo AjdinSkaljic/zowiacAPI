@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zowiac.commons.SqlDateDesrialize;
 import com.zowiac.commons.SqlTimeDesrialize;
 import com.zowiac.commons.SqlTimeSerialize;
 import com.zowiac.commons.TimestampSerialize;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -30,6 +31,7 @@ public class ReportEntity {
     private Long animalId;
     @Basic
     @Column(name = "date")
+    @JsonDeserialize(using = SqlDateDesrialize.class)
     private Date date;
     @Basic
     @Column(name = "time")

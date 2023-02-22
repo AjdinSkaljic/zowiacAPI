@@ -14,7 +14,7 @@ Ext.define('zowiac.view.app.AppListController', {
     onChange: function () {
         Ext.log('onChange');
         try {
-            var model = this.getView().getSelection()[0];
+            let model = this.getView().getSelection()[0];
             if (model != null)
                 this.openFormWindow("Ändern", model);
         } catch (e) {
@@ -56,11 +56,13 @@ Ext.define('zowiac.view.app.AppListController', {
     onDelete: function () {
         Ext.log('onDelete');
 
-        let deleteItem = function () {
+        let deleteItem = function (buttonId) {
             try {
-                const model = this.getView().getSelection()[0];
-                if (model != null)
-                    model.erase();
+                if (buttonId === 'yes') {
+                    const model = this.getView().getSelection()[0];
+                    if (model != null)
+                        model.erase();
+                }
             } catch (e) {
                 //TODOO: Fehler ausgeben
             }
