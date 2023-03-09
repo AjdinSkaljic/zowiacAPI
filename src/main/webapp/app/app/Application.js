@@ -6,6 +6,7 @@
 Ext.define('zowiac.Application', {
     extend: 'Ext.app.Application',
 
+
     name: 'zowiac',
 
     quickTips: false,

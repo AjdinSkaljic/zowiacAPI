@@ -1,7 +1,11 @@
 package com.zowiac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders", schema = "zowiac_map")
@@ -36,14 +40,29 @@ public class OrderEntity {
     @Column(name = "zip")
     private String zip;
 
+    @Basic
+    @Column(name = "email")
     private String email;
 
     private boolean canceled;
 
     private boolean settled;
 
-    private List<OrderPositionEntity> orderPositions;
+    private boolean receiptSent;
 
+    private boolean receiptCreated;
+
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<OrderLogEntity> orderLogs;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<OrderPositionEntity> orderPositions;
+
+
+    public OrderEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -69,13 +88,6 @@ public class OrderEntity {
         this.countPosters = countPosters;
     }
 
-    public List<OrderPositionEntity> getOrderPositions() {
-        return orderPositions;
-    }
-
-    public void setOrderPositions(List<OrderPositionEntity> orderPositions) {
-        this.orderPositions = orderPositions;
-    }
 
     public Long getReceiptId() {
         return receiptId;
@@ -139,5 +151,68 @@ public class OrderEntity {
 
     public void setSettled(boolean settled) {
         this.settled = settled;
+    }
+
+    public Set<OrderLogEntity> getOrderLogs() {
+        return orderLogs;
+    }
+
+    public void setOrderLogs(Set<OrderLogEntity> orderLogs) {
+        this.orderLogs = orderLogs;
+    }
+
+    public Set<OrderPositionEntity> getOrderPositions() {
+        return orderPositions;
+    }
+
+    public void setOrderPositions(Set<OrderPositionEntity> orderPositions) {
+        this.orderPositions = orderPositions;
+    }
+
+    public boolean isReceiptSent() {
+        return receiptSent;
+    }
+
+    public void setReceiptSent(boolean receiptSent) {
+        this.receiptSent = receiptSent;
+    }
+
+
+    public List<OrderPositionEntity> getPosters() {
+        if (orderPositions != null)
+            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals("P")).collect(Collectors.toList());
+        return null;
+    }
+
+    public List<OrderPositionEntity> getVisitors() {
+        if (orderPositions != null)
+            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals("V")).collect(Collectors.toList());
+        return null;
+    }
+
+    public boolean isReceiptCreated() {
+        return receiptCreated;
+    }
+
+    public void setReceiptCreated(boolean receiptCreated) {
+        this.receiptCreated = receiptCreated;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderEntity{" +
+                "id=" + id +
+                ", countVisitors=" + countVisitors +
+                ", countPosters=" + countPosters +
+                ", receiptId=" + receiptId +
+                ", name='" + name + '\'' +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", zip='" + zip + '\'' +
+                ", email='" + email + '\'' +
+                ", canceled=" + canceled +
+                ", settled=" + settled +
+                ", receiptSent=" + receiptSent +
+                '}';
     }
 }

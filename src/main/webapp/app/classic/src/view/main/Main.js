@@ -13,18 +13,19 @@ Ext.define('zowiac.view.main.Main', {
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
         'Ext.form.field.*',
+        'zowiac.model.*',
         'zowiac.view.main.MainController',
         'zowiac.view.main.MainModel',
         'zowiac.view.report.ReportList',
         'zowiac.view.animal.AnimalList',
         'zowiac.view.seasons.ShootingSeasonList',
-        'zowiac.view.settins.SettingsPanel',
+        'zowiac.view.settings.SettingsPanel',
         'zowiac.view.hide.HideTypeList',
         'zowiac.view.authority.AuthorityList',
         'zowiac.view.users.UsersList',
         'zowiac.view.feedback.FeedbackList',
-        'zowiac.view.evidenceType.EvidenceTypeList'
-    ],
+        'zowiac.view.evidenceType.EvidenceTypeList',
+        'zowiac.view.order.OrderList'    ],
 
     controller: 'main',
 
@@ -97,6 +98,19 @@ Ext.define('zowiac.view.main.Main', {
             flex: 1
         }]
     }, {
+        title: 'Tickets',
+        iconCls: 'fa-ticket-alt',
+        layout: {
+            type: 'vbox',
+            pack: 'start',
+            align: 'stretch'
+
+        },
+        items: [{
+            xtype: 'orderList',
+            flex: 1
+        }]
+    },{
         title: 'Tierart',
         iconCls: 'fa-paw',
         layout: {

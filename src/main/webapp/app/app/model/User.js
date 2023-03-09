@@ -13,6 +13,7 @@ Ext.define('zowiac.model.User', {
 
     idProperty: 'username',
 
+
     proxy: {
         type: 'rest',
         url: urlPrefix + 'api/users',

@@ -19,6 +19,7 @@
         <mapping class="com.zowiac.model.FilesEntity"/>
         <mapping class="com.zowiac.model.OrderEntity"/>
         <mapping class="com.zowiac.model.OrderPositionEntity"/>
+        <mapping class="com.zowiac.model.OrderLogEntity"/>
 
     </session-factory>
 </hibernate-configuration>

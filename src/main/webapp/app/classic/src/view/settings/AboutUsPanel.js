@@ -1,4 +1,4 @@
-Ext.define('zowiac.view.settins.AboutUsPanel', {
+Ext.define('zowiac.view.settings.AboutUsPanel', {
     extend: 'Ext.form.Panel',
     requires: [
         'zowiac.view.settings.AboutUsPanelController'

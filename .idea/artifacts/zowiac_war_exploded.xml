@@ -26,6 +26,8 @@
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.2" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="barcodes-7.2.5" />
+          <element id="library" level="project" name="commons-email-1.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">

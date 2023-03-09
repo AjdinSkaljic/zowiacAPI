@@ -1,5 +1,7 @@
 package com.zowiac.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,9 +15,10 @@ public class OrderPositionEntity {
     @Column(name = "id")
     private Long id;
 
-    @Basic
-    @Column(name = "order_id")
-    private Long orderId;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private OrderEntity order;
     @Basic
     @Column(name = "type")
     private String type;
@@ -23,6 +26,22 @@ public class OrderPositionEntity {
     @Basic
     @Column(name = "name")
     private String name;
+
+    @Basic
+    @Column(name = "email")
+    private String email;
+
+    @Basic
+    @Column(name = "description")
+    private String description;
+
+    @Basic
+    @Column(name = "discountType")
+    private String discountType;
+
+
+    public OrderPositionEntity() {
+    }
 
     public Long getId() {
         return id;
@@ -40,12 +59,12 @@ public class OrderPositionEntity {
         this.type = type;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public OrderEntity getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 
     public String getName() {
@@ -54,5 +73,39 @@ public class OrderPositionEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderPositionEntity{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

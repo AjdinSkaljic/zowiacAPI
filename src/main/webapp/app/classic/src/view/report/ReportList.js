@@ -19,7 +19,7 @@ Ext.define('zowiac.view.report.ReportList', {
     bbar: {
         xtype: 'pagingtoolbar',
         displayInfo: true,
-        displayMsg: 'Meldungen {0} - {1} of {2}',
+        displayMsg: 'Meldungen {0} - {1} von {2}',
         emptyMsg: 'Keine Meldungen vorhanden'
     },
 

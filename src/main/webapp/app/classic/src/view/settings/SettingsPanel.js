@@ -1,7 +1,7 @@
-Ext.define('zowiac.view.settins.SettingsPanel', {
+Ext.define('zowiac.view.settings.SettingsPanel', {
     extend: 'Ext.panel.Panel',
     requires: [
-        'zowiac.view.settins.AboutUsPanel'
+        'zowiac.view.settings.AboutUsPanel'
     ],
     xtype: 'settingsPanel',
 

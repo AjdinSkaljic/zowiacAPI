@@ -48,3 +48,13 @@ CREATE TABLE `order_positions` (
                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 ;
 
+
+
+CREATE TABLE `order_logs` (
+                                   `id` int NOT NULL AUTO_INCREMENT,
+                                   `order_id` int NOT NULL,
+                                   `date_time` datetime NOT NULL,
+                                   `username` varchar(128) default NULL,
+                                   `message` varchar(512) default NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 ;

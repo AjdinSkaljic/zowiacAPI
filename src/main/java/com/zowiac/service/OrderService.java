@@ -1,7 +1,9 @@
 package com.zowiac.service;
 
 import com.zowiac.model.OrderEntity;
+import com.zowiac.model.OrderLogEntity;
 import com.zowiac.model.OrderPositionEntity;
+import com.zowiac.print.ReceiptPdf;
 import com.zowiac.respository.OrderRespository;
 import org.springframework.stereotype.Component;
 
@@ -33,40 +35,71 @@ public class OrderService {
     }
 
     //cancel order by admin
-    public void cancelOrder(OrderEntity orderEntity) {
-        orderEntity.setCanceled(true);
-        getOrderRespository().save(orderEntity);
+    public void cancelOrder(Long orderId, String userName) {
+        OrderEntity order = getOrderRespository().findById(orderId).get();
+        if (!order.isCanceled()) {
+            order.setCanceled(true);
+            order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde storniert"));
+            getOrderRespository().save(order);
+        }
     }
 
     // create receipt
-    public void createReceipt(OrderEntity orderEntity) {
-        //orderEntity.setReceipt(true);
-        getOrderRespository().save(orderEntity);
+    public void createReceipt(Long orderId, String userName) {
+        try {
+            OrderEntity order = getOrderRespository().findById(orderId).get();
+            if (!order.isCanceled() && order.getReceiptId() != null) {
+                Long receitId = getOrderRespository().findMaxReceiptId();
+                if (receitId == null)
+                    receitId = 0l;
+                receitId++;
+                order.setReceiptId(receitId);
+                order.setReceiptCreated(true);
+                order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde erstellt"));
+                getOrderRespository().save(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //send receipt to customer
-    public void sendReceipt(OrderEntity orderEntity) {
+    public void sendReceipt(Long orderId, String userName) {
         try {
-            getEmailService().sendMail(orderEntity.getEmail(), "Rechnung von Zowiac", "Vielen Dank für Ihre Bestellung bei Zowiac. Ihre Rechnung finden Sie im Anhang.");
+            OrderEntity order = getOrderRespository().findById(orderId).get();
+            if (!order.isCanceled() && !order.isReceiptSent()) {
+                ReceiptPdf receiptPdf = new ReceiptPdf(order);
+                byte[] pdfAsBytes = receiptPdf.createPdf();
+
+                getEmailService().sendMail(order.getEmail(), "Rechnung von Zowiac", "Vielen Dank für Ihre Bestellung bei Zowiac. Ihre Rechnung finden Sie im Anhang.", pdfAsBytes);
+
+                order.setReceiptSent(true);
+
+                order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde versendet"));
+                getOrderRespository().saveAndFlush(order);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //send parcitipantion confirmation to customer
-    public void sendParticipationConfirmation(OrderEntity orderEntity) {
-        try {
-            getEmailService().sendMail(orderEntity.getEmail(), "Teilnahmebestätigung von Zowiac", "Vielen Dank für Ihre Teilnahme bei Zowiac. Ihre Bestellnummer lautet: " + orderEntity.getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void sendParticipationConfirmation(OrderEntity order) throws Exception {
+        getEmailService().sendMail(order.getEmail(), "Teilnahmebestätigung von Zowiac", "Vielen Dank für Ihre Teilnahme bei Zowiac. Ihre Bestellnummer lautet: " + order.getId());
     }
 
 
     //Settle receipt by admin
-    public void settleReceipt(OrderEntity orderEntity) {
-        orderEntity.setSettled(true);
-        getOrderRespository().save(orderEntity);
+    public void bookReceipt(Long orderId, String userName) {
+        try {
+            OrderEntity order = getOrderRespository().findById(orderId).get();
+            sendParticipationConfirmation(order);
+            order.setSettled(true);
+            order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde verbucht"));
+            getOrderRespository().save(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //get list visitors

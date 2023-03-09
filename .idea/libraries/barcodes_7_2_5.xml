@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="barcodes-7.2.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/barcodes-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/commons-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/forms-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/io-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/kernel-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/layout-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/pdfa-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/pdftest-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/sign-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/styled-xml-parser-7.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../Projekte/uni/zowiac/libs/itext/svg-7.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
