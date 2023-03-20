@@ -3,6 +3,7 @@ package com.zowiac.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,6 +27,10 @@ public class OrderEntity {
     @Basic
     @Column(name = "receipt_id")
     private Long receiptId;
+
+    @Basic
+    @Column(name = "receipt_date")
+    private Date receiptDate;
     @Basic
     @Column(name = "name")
     private String name;
@@ -196,6 +201,21 @@ public class OrderEntity {
 
     public void setReceiptCreated(boolean receiptCreated) {
         this.receiptCreated = receiptCreated;
+    }
+
+    public Date getReceiptDate() {
+        return receiptDate;
+    }
+
+    public void setReceiptDate(Date receiptDate) {
+        this.receiptDate = receiptDate;
+    }
+
+    //get Receipt date formatted
+    public String getReceiptDateFormatted() {
+        if (receiptDate != null)
+            return new java.text.SimpleDateFormat("dd.MM.yyyy").format(receiptDate);
+        return "";
     }
 
     @Override

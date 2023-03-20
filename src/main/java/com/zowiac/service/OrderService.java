@@ -1,12 +1,13 @@
 package com.zowiac.service;
 
+import com.zowiac.commons.EmailText;
 import com.zowiac.model.OrderEntity;
 import com.zowiac.model.OrderLogEntity;
-import com.zowiac.model.OrderPositionEntity;
 import com.zowiac.print.ReceiptPdf;
 import com.zowiac.respository.OrderRespository;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -48,12 +49,13 @@ public class OrderService {
     public void createReceipt(Long orderId, String userName) {
         try {
             OrderEntity order = getOrderRespository().findById(orderId).get();
-            if (!order.isCanceled() && order.getReceiptId() != null) {
+            if (!order.isCanceled() && order.getReceiptId() == null) {
                 Long receitId = getOrderRespository().findMaxReceiptId();
                 if (receitId == null)
                     receitId = 0l;
                 receitId++;
                 order.setReceiptId(receitId);
+                order.setReceiptDate(new Date());
                 order.setReceiptCreated(true);
                 order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde erstellt"));
                 getOrderRespository().save(order);
@@ -71,7 +73,7 @@ public class OrderService {
                 ReceiptPdf receiptPdf = new ReceiptPdf(order);
                 byte[] pdfAsBytes = receiptPdf.createPdf();
 
-                getEmailService().sendMail(order.getEmail(), "Rechnung von Zowiac", "Vielen Dank für Ihre Bestellung bei Zowiac. Ihre Rechnung finden Sie im Anhang.", pdfAsBytes);
+                getEmailService().sendMail(order.getEmail(), "Ihre Rechnung - Rechnungsnummer " + order.getReceiptId() , EmailText.createTextRechnung(order), pdfAsBytes);
 
                 order.setReceiptSent(true);
 
@@ -85,7 +87,7 @@ public class OrderService {
 
     //send parcitipantion confirmation to customer
     public void sendParticipationConfirmation(OrderEntity order) throws Exception {
-        getEmailService().sendMail(order.getEmail(), "Teilnahmebestätigung von Zowiac", "Vielen Dank für Ihre Teilnahme bei Zowiac. Ihre Bestellnummer lautet: " + order.getId());
+        getEmailService().sendMail(order.getEmail(), "Bestätigung Ihrer Registrierung für die ZOWIAC-Konferenz", EmailText.createTeilnahme(order));
     }
 
 
@@ -102,16 +104,6 @@ public class OrderService {
         }
     }
 
-    //get list visitors
-    public List<OrderPositionEntity> getListVisitors() {
-        //TODO
-        return null;
-    }
-
-    public List<OrderPositionEntity> getListPosters() {
-        //TODO
-        return null;
-    }
 
     //load order by id
     public OrderEntity loadOrderById(Long id) {

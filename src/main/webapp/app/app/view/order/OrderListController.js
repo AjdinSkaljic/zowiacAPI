@@ -63,5 +63,15 @@ Ext.define('zowiac.view.order.OrderListController', {
 
         Ext.MessageBox.confirm(
             'Warnung', 'Wollen Sie das Tier löschen?', deleteAnimal, this);
+    },
+
+    exportBesucher: function (){
+        Ext.log('exportBesucher');
+        window.open(urlPrefix + '/api/orders/export/V');
+    },
+
+    exportPoster: function (){
+        Ext.log('exportBesucher');
+        window.open(urlPrefix + '/api/orders/export/P');
     }
 });

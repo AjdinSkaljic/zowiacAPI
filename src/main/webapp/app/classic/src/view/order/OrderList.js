@@ -33,20 +33,12 @@ Ext.define('zowiac.view.order.OrderList', {
         xtype: 'button',
         text: 'Liste der Besucher',
         iconCls: 'fa fa-file-excel',
-        cfg: {
-            type: 'excel07',
-            ext: 'xlsx'
-        },
-        handler: 'exportTo'
+        handler: 'exportBesucher'
     }, '-', {
         xtype: 'button',
         text: 'Liste der Poster',
         iconCls: 'fa fa-file-excel',
-        cfg: {
-            type: 'excel07',
-            ext: 'xlsx'
-        },
-        handler: 'exportTo'
+        handler: 'exportPoster'
     }],
 
     plugins: {
@@ -68,6 +60,7 @@ Ext.define('zowiac.view.order.OrderList', {
         {text: '#Besucher', dataIndex: 'countVisitors', flex: 1},
         {text: '#Poster', dataIndex: 'countPosters', flex: 1},
         {text: 'Rechnungsnummer', dataIndex: 'receiptId', flex: 1},
+        {text: 'Rechnungsdatum', dataIndex: 'receiptDate', flex: 1},
         {text: 'Stadt', dataIndex: 'zip', flex: 1},
         {text: 'PLZ', dataIndex: 'city', flex: 1, hidden: true},
         {text: 'Strasse', dataIndex: 'street', flex: 1, hidden: true},

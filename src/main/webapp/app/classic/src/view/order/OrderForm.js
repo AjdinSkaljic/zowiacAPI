@@ -29,52 +29,86 @@ Ext.define('zowiac.view.order.OrderForm', {
     initComponent: function () {
         this.items = [{
             fieldLabel: 'Id',
-            name: 'id'
+            name: 'id',
+            xtype: 'textfield',
+            minWidth: 100,
+            maxWidth: 200,
+            readOnly: true
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Name/Email',
             layout: 'hbox',
             items: [{
-                xtype: 'displayfield',
-                name: 'name'
+                xtype: 'textfield',
+                name: 'name',
+                readOnly: true,
+                minWidth: 200
             }, {
                 xtype: 'splitter'
             }, {
-                xtype: 'displayfield',
-                name: 'email'
+                xtype: 'textfield',
+                name: 'email',
+                readOnly: true,
+                minWidth: 250
             }]
         }, {
             fieldLabel: 'Strasse',
-            name: 'street'
+            name: 'street',
+            xtype: 'textfield',
+            minWidth: 400,
+            maxWidth: 500,
+            readOnly: true
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'PLZ/Ort',
             layout: 'hbox',
             items: [{
-                xtype: 'displayfield',
-                name: 'zip'
+                xtype: 'textfield',
+                name: 'zip',
+                maxWidth: 100,
+                readOnly: true
             }, {
                 xtype: 'splitter'
             }, {
-                xtype: 'displayfield',
-                name: 'city'
+                xtype: 'textfield',
+                name: 'city',
+                minWidth: 200,
+                maxWidth: 350,
+                readOnly: true
             }]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: '# Besucher/Poster',
             layout: 'hbox',
             items: [{
-                xtype: 'displayfield',
+                xtype: 'textfield',
+                minWidth: 50,
+                maxWidth: 50,
+                readOnly: true,
                 name: 'countVisitors'
             }, {
                 xtype: 'splitter'
             }, {
-                xtype: 'displayfield',
+                xtype: 'textfield',
+                minWidth: 50,
+                maxWidth: 50,
+                readOnly: true,
                 name: 'countPosters'
             }]
         }, {
             fieldLabel: 'Rechnungsnummer',
-            name: 'receiptId'
+            name: 'receiptId',
+            xtype: 'textfield',
+            minWidth: 100,
+            maxWidth: 200,
+            readOnly: true
+        }, {
+            fieldLabel: 'Rechnungsdatum',
+            name: 'receiptDate',
+            xtype: 'textfield',
+            minWidth: 100,
+            maxWidth: 200,
+            readOnly: true
         }, {
             xtype: 'tabpanel',
             width: '100%',
@@ -86,11 +120,11 @@ Ext.define('zowiac.view.order.OrderForm', {
                     text: 'Name',
                     dataIndex: 'name',
                     flex: 1
-                },{
+                }, {
                     text: 'E-Mail',
                     dataIndex: 'email',
                     flex: 1
-                },{
+                }, {
                     text: 'Nachlass',
                     dataIndex: 'discountType',
                     flex: 1
