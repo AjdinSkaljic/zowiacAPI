@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -62,7 +63,7 @@ public class OrderEntity {
     private Set<OrderLogEntity> orderLogs;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<OrderPositionEntity> orderPositions;
 
 
@@ -217,6 +218,21 @@ public class OrderEntity {
             return new java.text.SimpleDateFormat("dd.MM.yyyy").format(receiptDate);
         return "";
     }
+
+    public void setVisitors(List<OrderPositionEntity> visitors) {
+        if (orderPositions == null)
+            orderPositions = new HashSet<>(visitors);
+        else
+            orderPositions.addAll(visitors);
+    }
+
+    public void setPosters(List<OrderPositionEntity> posters) {
+        if (orderPositions == null)
+            orderPositions = new HashSet<>(posters);
+        else
+            orderPositions.addAll(posters);
+    }
+
 
     @Override
     public String toString() {

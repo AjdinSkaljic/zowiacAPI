@@ -26,6 +26,13 @@ public class OrderController {
     }
 
 
+    @PostMapping("/public/order")
+    @ResponseBody
+    public OrderEntity createOrder(@RequestBody OrderEntity order) throws Exception {
+        return getOrderService().createOrder(order);
+    }
+
+
     @GetMapping("/orders/export/{art}")
     public void exportCSV(@PathVariable("art") String art, HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");
@@ -112,13 +119,6 @@ public class OrderController {
     @ResponseBody
     public List<OrderEntity> finaAll() {
         return getOrderService().findAll();
-    }
-
-
-    @PostMapping("/orders/{id}")
-    @ResponseBody
-    public OrderEntity create(@RequestBody OrderEntity order) {
-        return getOrderService().createOrder(order);
     }
 
 

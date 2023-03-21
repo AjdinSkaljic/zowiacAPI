@@ -8,6 +8,7 @@ import com.zowiac.respository.OrderRespository;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -21,21 +22,38 @@ public class OrderService {
         this.emailService = emailService;
     }
 
-    //create Order
-    public OrderEntity createOrder(OrderEntity orderEntity) {
-        return getOrderRespository().save(orderEntity);
+    public OrderEntity createOrder(OrderEntity order) {
+        if (order.getVisitors() != null) {
+            order.getVisitors().forEach(visitor -> visitor.setOrder(order));
+            order.setCountVisitors(order.getVisitors().size());
+        }
+
+        if (order.getPosters() != null) {
+            order.getPosters().forEach(poster -> poster.setOrder(order));
+            order.setCountPosters(order.getPosters().size());
+        }
+
+        if (order.getOrderLogs() == null)
+            order.setOrderLogs(new HashSet<>());
+        order.getOrderLogs().add(new OrderLogEntity(order, "system", "Bestellung wurde erstellt"));
+
+        getOrderRespository().saveAndFlush(order);
+
+
+        sendOrderConfirmation(order);
+
+        return order;
+
     }
 
-    //send Mail Order Confirmation to Customer
-    public void sendOrderConfirmation(OrderEntity orderEntity) {
+    public void sendOrderConfirmation(OrderEntity order) {
         try {
-            getEmailService().sendMail(orderEntity.getEmail(), "Bestellung bei Zowiac", "Vielen Dank für Ihre Bestellung bei Zowiac. Ihre Bestellnummer lautet: " + orderEntity.getId());
+            getEmailService().sendMail(order.getEmail(), "Bestellung bei Zowiac", EmailText.createBestellbestaetigung(order));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //cancel order by admin
     public void cancelOrder(Long orderId, String userName) {
         OrderEntity order = getOrderRespository().findById(orderId).get();
         if (!order.isCanceled()) {
@@ -45,7 +63,6 @@ public class OrderService {
         }
     }
 
-    // create receipt
     public void createReceipt(Long orderId, String userName) {
         try {
             OrderEntity order = getOrderRespository().findById(orderId).get();
@@ -65,7 +82,6 @@ public class OrderService {
         }
     }
 
-    //send receipt to customer
     public void sendReceipt(Long orderId, String userName) {
         try {
             OrderEntity order = getOrderRespository().findById(orderId).get();
@@ -73,7 +89,7 @@ public class OrderService {
                 ReceiptPdf receiptPdf = new ReceiptPdf(order);
                 byte[] pdfAsBytes = receiptPdf.createPdf();
 
-                getEmailService().sendMail(order.getEmail(), "Ihre Rechnung - Rechnungsnummer " + order.getReceiptId() , EmailText.createTextRechnung(order), pdfAsBytes);
+                getEmailService().sendMail(order.getEmail(), "Ihre Rechnung - Rechnungsnummer " + order.getReceiptId(), EmailText.createTextRechnung(order), pdfAsBytes);
 
                 order.setReceiptSent(true);
 
@@ -85,13 +101,10 @@ public class OrderService {
         }
     }
 
-    //send parcitipantion confirmation to customer
     public void sendParticipationConfirmation(OrderEntity order) throws Exception {
         getEmailService().sendMail(order.getEmail(), "Bestätigung Ihrer Registrierung für die ZOWIAC-Konferenz", EmailText.createTeilnahme(order));
     }
 
-
-    //Settle receipt by admin
     public void bookReceipt(Long orderId, String userName) {
         try {
             OrderEntity order = getOrderRespository().findById(orderId).get();
