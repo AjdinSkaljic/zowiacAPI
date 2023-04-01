@@ -22,25 +22,38 @@ Ext.define('zowiac.view.order.OrderForm', {
     },
 
     defaults: {
-        labelWidth: 120,
+        labelWidth: 180,
         width: '100%'
     },
 
     initComponent: function () {
         this.items = [{
-            fieldLabel: 'Id',
-            name: 'id',
-            xtype: 'textfield',
-            minWidth: 100,
-            maxWidth: 200,
-            readOnly: true
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Id/Datum',
+            layout: 'hbox',
+            items: [{
+                name: 'id',
+                xtype: 'textfield',
+                minWidth: 50,
+                maxWidth: 50,
+                readOnly: true
+            }, {
+                xtype: 'splitter'
+            }, {
+                name: 'orderDate',
+                xtype: 'datefield',
+                minWidth: 100,
+                maxWidth: 100,
+                readOnly: true,
+                format: 'd.m.Y'
+            }]
         }, {
             xtype: 'fieldcontainer',
             fieldLabel: 'Name/Email',
             layout: 'hbox',
             items: [{
                 xtype: 'textfield',
-                name: 'name',
+                name: 'fullname',
                 readOnly: true,
                 minWidth: 200
             }, {
@@ -78,7 +91,7 @@ Ext.define('zowiac.view.order.OrderForm', {
             }]
         }, {
             xtype: 'fieldcontainer',
-            fieldLabel: '# Besucher/Poster',
+            fieldLabel: '#Besucher/Poster/Vorträge',
             layout: 'hbox',
             items: [{
                 xtype: 'textfield',
@@ -94,21 +107,44 @@ Ext.define('zowiac.view.order.OrderForm', {
                 maxWidth: 50,
                 readOnly: true,
                 name: 'countPosters'
+            }, {
+                xtype: 'splitter'
+            }, {
+                xtype: 'textfield',
+                minWidth: 50,
+                maxWidth: 50,
+                readOnly: true,
+                name: 'countSpeeches'
             }]
         }, {
-            fieldLabel: 'Rechnungsnummer',
-            name: 'receiptId',
-            xtype: 'textfield',
-            minWidth: 100,
-            maxWidth: 200,
-            readOnly: true
-        }, {
-            fieldLabel: 'Rechnungsdatum',
-            name: 'receiptDate',
-            xtype: 'textfield',
-            minWidth: 100,
-            maxWidth: 200,
-            readOnly: true
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Re.Nr./-datum/Betrag',
+            layout: 'hbox',
+            items: [{
+
+                name: 'receiptId',
+                xtype: 'textfield',
+                minWidth: 100,
+                maxWidth: 200,
+                readOnly: true
+            }, {
+                xtype: 'splitter'
+            }, {
+                name: 'receiptDate',
+                xtype: 'datefield',
+                minWidth: 100,
+                maxWidth: 200,
+                readOnly: true,
+                format: 'd.m.Y'
+            }, {
+                xtype: 'splitter'
+            }, {
+                name: 'receiptSum',
+                xtype: 'textfield',
+                minWidth: 100,
+                maxWidth: 200,
+                readOnly: true
+            }]
         }, {
             xtype: 'tabpanel',
             width: '100%',
@@ -118,15 +154,40 @@ Ext.define('zowiac.view.order.OrderForm', {
                 store: this.model.visitors(),
                 columns: [{
                     text: 'Name',
-                    dataIndex: 'name',
+                    dataIndex: 'fullname',
                     flex: 1
                 }, {
                     text: 'E-Mail',
                     dataIndex: 'email',
                     flex: 1
                 }, {
-                    text: 'Nachlass',
-                    dataIndex: 'discountType',
+                    text: 'Ticket',
+                    dataIndex: 'discountTypeFormatted',
+                    width: 100
+                }, {
+                    text: 'Preis in €',
+                    dataIndex: 'price',
+                    width: 100
+                }]
+            }, {
+                title: 'Vorträge',
+                xtype: 'grid',
+                store: this.model.speeches(),
+                columns: [{
+                    text: 'Titel',
+                    dataIndex: 'name',
+                    flex: 1
+                }, {
+                    text: 'Thema',
+                    dataIndex: 'topicFormatted',
+                    flex: 1
+                }, {
+                    text: 'Abstract',
+                    dataIndex: 'abstractNote',
+                    flex: 1
+                }, {
+                    text: 'sonst. Hinweis',
+                    dataIndex: 'note',
                     flex: 1
                 }]
             }, {
@@ -134,12 +195,20 @@ Ext.define('zowiac.view.order.OrderForm', {
                 xtype: 'grid',
                 store: this.model.posters(),
                 columns: [{
-                    text: 'Name',
+                    text: 'Titel',
                     dataIndex: 'name',
                     flex: 1
                 }, {
-                    text: 'Beschreibung',
-                    dataIndex: 'description',
+                    text: 'Thema',
+                    dataIndex: 'topicFormatted',
+                    flex: 1
+                }, {
+                    text: 'Abstract',
+                    dataIndex: 'abstractNote',
+                    flex: 1
+                }, {
+                    text: 'sonst. Hinweis',
+                    dataIndex: 'note',
                     flex: 1
                 }]
             }, {
@@ -149,7 +218,10 @@ Ext.define('zowiac.view.order.OrderForm', {
                 columns: [{
                     text: 'Datum',
                     dataIndex: 'dateTime',
-                    flex: 1
+                    flex: 1,
+                    renderer: function (dt) {
+                        return Ext.Date.format(dt, 'd.m.Y H:i');
+                    }
                 }, {
                     text: 'Log',
                     dataIndex: 'message',

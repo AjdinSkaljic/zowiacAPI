@@ -46,13 +46,14 @@ public class OrderController {
         List<OrderEntity> orders = getOrderService().findAll();
 
         if (art.equals(OrderPositionEntity.TYPE_VISITOR)) {
-            response.getWriter().println("ID;Name; Teilnehmer; E-Mail; Type; Datum");
+            response.getWriter().println("ID;Teilnehmer; E-Mail; Type; Besteller;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
                     if (order.isSettled()) {
                         for (OrderPositionEntity visitor : order.getVisitors()) {
                             try {
-                                response.getWriter().println(order.getId() + ";" + order.getName() + ";" + visitor.getName() + ";" + visitor.getEmail() + ";" + visitor.getDiscountType() + "; ");
+                                response.getWriter().println(order.getId() + ";" + visitor.getFullname() + ";" + visitor.getEmail() + ";" + visitor.getDiscountTypeFormatted() + "; " + order.getFullname() + ";" +
+                                        order.getOrderDateFormatted());
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -60,14 +61,31 @@ public class OrderController {
                     }
                 });
             }
-        } else {
-            response.getWriter().println("ID;Name; Poster; Beschreibung;Datum");
+        } else if (art.equals(OrderPositionEntity.TYPE_POSTER)) {
+            response.getWriter().println("ID;Titel; Thema; Abstract;sonst. Hinweis;Besteller ;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
                     if (order.isSettled()) {
                         for (OrderPositionEntity poster : order.getPosters()) {
                             try {
-                                response.getWriter().println(order.getId() + ";" + order.getName() + ";" + poster.getName() + ";" + poster.getDescription() + ";");
+                                response.getWriter().println(order.getId() + ";" + poster.getName() + ";" + poster.getTopicFormatted() + ";" + poster.getAbstractNote() + ";" + poster.getNote() + ";" +
+                                        order.getFullname() + ";" + order.getOrderDateFormatted());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                });
+            }
+        } else if (art.equals(OrderPositionEntity.TYPE_SPEECH)) {
+            response.getWriter().println("ID;Titel; Abstract; sonst. Hinweis;Besteller ;Datum;");
+            if (orders != null) {
+                orders.forEach(order -> {
+                    if (order.isSettled()) {
+                        for (OrderPositionEntity poster : order.getPosters()) {
+                            try {
+                                response.getWriter().println(order.getId() + ";" + poster.getName() + ";" + poster.getAbstractNote() + ";" + poster.getNote() + ";" +
+                                        order.getFullname() + ";" + order.getOrderDateFormatted());
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

@@ -9,6 +9,11 @@ import javax.persistence.*;
 public class OrderPositionEntity {
     public final static String TYPE_VISITOR = "V";
     public final static String TYPE_POSTER = "P";
+    public final static String TYPE_SPEECH = "S";
+
+
+    public final static String DISCOUNT_TYPE_NORMAL = "N";
+    public final static String DISCOUNT_TYPE_STUDENT = "S";
 
     @Id
     @GeneratedValue
@@ -19,25 +24,53 @@ public class OrderPositionEntity {
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
+
     @Basic
     @Column(name = "type")
     private String type;
+
+    @Basic
+    @Column(name = "sex")
+    private String sex;
+
+    @Basic
+    @Column(name = "title")
+    private String title;
+
+    @Basic
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Basic
+    @Column(name = "lastname")
+    private String lastname;
+    @Basic
+    @Column(name = "email")
+    private String email;
 
     @Basic
     @Column(name = "name")
     private String name;
 
     @Basic
-    @Column(name = "email")
-    private String email;
+    @Column(name = "abstract")
+    private String abstractNote;
 
     @Basic
-    @Column(name = "description")
-    private String description;
+    @Column(name = "note")
+    private String note;
+
+    @Basic
+    @Column(name = "topic")
+    private String topic;
 
     @Basic
     @Column(name = "discountType")
     private String discountType;
+
+    @Basic
+    @Column(name = "price")
+    private Double price;
 
 
     public OrderPositionEntity() {
@@ -67,14 +100,37 @@ public class OrderPositionEntity {
         this.order = order;
     }
 
-    public String getName() {
-        return name;
+    public String getSex() {
+        return sex;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
     public String getEmail() {
         return email;
@@ -84,13 +140,6 @@ public class OrderPositionEntity {
         this.email = email;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getDiscountType() {
         return discountType;
@@ -100,12 +149,105 @@ public class OrderPositionEntity {
         this.discountType = discountType;
     }
 
-    @Override
-    public String toString() {
-        return "OrderPositionEntity{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public Double getPrice() {
+        return price;
     }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getAbstractNote() {
+        return abstractNote;
+    }
+
+    public void setAbstractNote(String abstractNote) {
+        this.abstractNote = abstractNote;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getFullname() {
+        String fullname = "";
+
+        if (sex != null) {
+            if (sex.equals("f"))
+                fullname = "Frau ";
+            else if (sex.equals("m"))
+                fullname = "Herr ";
+        }
+
+        if (this.title != null) {
+            if (title.equals("dr"))
+                fullname += "Dr. ";
+            else if (title.equals("prof"))
+                fullname += "Prof. Dr. ";
+        }
+
+        fullname += this.firstname + " " + this.lastname;
+
+        return fullname;
+    }
+
+    public String getDiscountTypeFormatted() {
+        if (discountType != null && discountType.equals(DISCOUNT_TYPE_STUDENT))
+            return "Student";
+        else
+            return "Normal";
+    }
+
+
+    public String getTopicFormatted() {
+        if (topic != null) {
+            switch (topic) {
+                case "1":
+                    return "1. Thema";
+                case "2":
+                    return "2. Thema";
+                case "3":
+                    return "3. Thema";
+                case "4":
+                    return "4. Thema";
+                case "5":
+                    return "5. Thema";
+            }
+        }
+        return "unbekanntes Thema";
+    }
+
+    public void initPrice() {
+        if (this.type.equals(TYPE_VISITOR)) {
+            if (discountType != null && discountType.equals(DISCOUNT_TYPE_STUDENT))
+                this.price = 30.0;
+            else
+                this.price = 60.0;
+        } else {
+            this.price = 0.0;
+        }
+
+    }
+
 }

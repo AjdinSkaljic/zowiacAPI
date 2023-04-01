@@ -1,5 +1,6 @@
 package com.zowiac.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -12,19 +13,21 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "orders", schema = "zowiac_map")
 public class OrderEntity {
-    public final static int MAX_COUNT_VISITORS = 5;
-    public final static int MAX_COUNT_POSTERS = 5;
 
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
+
     @Basic
-    @Column(name = "count_visitors")
-    private int countVisitors;
-    @Basic
-    @Column(name = "count_posters")
-    private int countPosters;
+    @Column(name = "order_date")
+    private Date orderDate;
+
+    private transient int countVisitors;
+
+    private transient int countPosters;
+
+    private transient int countSpeeches;
     @Basic
     @Column(name = "receipt_id")
     private Long receiptId;
@@ -33,8 +36,17 @@ public class OrderEntity {
     @Column(name = "receipt_date")
     private Date receiptDate;
     @Basic
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Basic
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Basic
+    @Column(name = "company")
+    private String company;
+
     @Basic
     @Column(name = "street")
     private String street;
@@ -103,12 +115,21 @@ public class OrderEntity {
         this.receiptId = receiptId;
     }
 
-    public String getName() {
-        return name;
+
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getStreet() {
@@ -186,15 +207,23 @@ public class OrderEntity {
 
     public List<OrderPositionEntity> getPosters() {
         if (orderPositions != null)
-            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals("P")).collect(Collectors.toList());
+            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_POSTER)).collect(Collectors.toList());
         return null;
     }
 
     public List<OrderPositionEntity> getVisitors() {
         if (orderPositions != null)
-            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals("V")).collect(Collectors.toList());
+            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_VISITOR)).collect(Collectors.toList());
         return null;
     }
+
+
+    public List<OrderPositionEntity> getSpeeches() {
+        if (orderPositions != null)
+            return orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_SPEECH)).collect(Collectors.toList());
+        return null;
+    }
+
 
     public boolean isReceiptCreated() {
         return receiptCreated;
@@ -204,6 +233,7 @@ public class OrderEntity {
         this.receiptCreated = receiptCreated;
     }
 
+    @JsonFormat(pattern = "dd.MM.yyyy")
     public Date getReceiptDate() {
         return receiptDate;
     }
@@ -219,6 +249,22 @@ public class OrderEntity {
         return "";
     }
 
+
+    public String getOrderDateFormatted() {
+        if (orderDate != null)
+            return new java.text.SimpleDateFormat("dd.MM.yyyy").format(orderDate);
+        return "";
+    }
+
+    @JsonFormat(pattern = "dd.MM.yyyy")
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
     public void setVisitors(List<OrderPositionEntity> visitors) {
         if (orderPositions == null)
             orderPositions = new HashSet<>(visitors);
@@ -226,29 +272,51 @@ public class OrderEntity {
             orderPositions.addAll(visitors);
     }
 
-    public void setPosters(List<OrderPositionEntity> posters) {
+    public void setInputs(List<OrderPositionEntity> posters) {
         if (orderPositions == null)
             orderPositions = new HashSet<>(posters);
         else
             orderPositions.addAll(posters);
     }
 
-
-    @Override
-    public String toString() {
-        return "OrderEntity{" +
-                "id=" + id +
-                ", countVisitors=" + countVisitors +
-                ", countPosters=" + countPosters +
-                ", receiptId=" + receiptId +
-                ", name='" + name + '\'' +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
-                ", zip='" + zip + '\'' +
-                ", email='" + email + '\'' +
-                ", canceled=" + canceled +
-                ", settled=" + settled +
-                ", receiptSent=" + receiptSent +
-                '}';
+    public int getCountSpeeches() {
+        return countSpeeches;
     }
+
+    public void setCountSpeeches(int countSpeeches) {
+        this.countSpeeches = countSpeeches;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getFullname() {
+        return firstname + " " + lastname;
+    }
+
+    public double getReceiptSum() {
+        try {
+            if (orderPositions != null)
+                return orderPositions.stream().mapToDouble(OrderPositionEntity::getPrice).sum();
+        } catch (Exception ignore) {
+
+        }
+        return 0;
+    }
+
+
+    public void initCounts() {
+        if (orderPositions != null) {
+            countVisitors = (int) orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_VISITOR)).count();
+            countPosters = (int) orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_POSTER)).count();
+            countSpeeches = (int) orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_SPEECH)).count();
+        }
+    }
+
+
 }

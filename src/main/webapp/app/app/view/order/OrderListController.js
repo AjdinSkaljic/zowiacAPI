@@ -18,7 +18,7 @@ Ext.define('zowiac.view.order.OrderListController', {
             if (orderModel != null)
                 this.openFormWindow('Ticket bearbeiten', orderModel);
         } catch (e) {
-            //TODOO: Fehler ausgeben
+            alert(e);
         }
     },
 
@@ -65,12 +65,18 @@ Ext.define('zowiac.view.order.OrderListController', {
             'Warnung', 'Wollen Sie das Tier löschen?', deleteAnimal, this);
     },
 
-    exportBesucher: function (){
+
+    exportSpeech: function () {
+        Ext.log('exportSpeech');
+        window.open(urlPrefix + '/api/orders/export/S');
+    },
+
+    exportBesucher: function () {
         Ext.log('exportBesucher');
         window.open(urlPrefix + '/api/orders/export/V');
     },
 
-    exportPoster: function (){
+    exportPoster: function () {
         Ext.log('exportBesucher');
         window.open(urlPrefix + '/api/orders/export/P');
     }

@@ -1,5 +1,6 @@
 package com.zowiac.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -74,6 +75,7 @@ public class OrderLogEntity {
     }
 
 
+    @JsonFormat(pattern="dd.MM.yyyy HH:mm")
     public Date getDateTime() {
         return dateTime;
     }

@@ -23,27 +23,22 @@ public class OrderService {
     }
 
     public OrderEntity createOrder(OrderEntity order) {
-        if (order.getVisitors() != null) {
-            order.getVisitors().forEach(visitor -> visitor.setOrder(order));
-            order.setCountVisitors(order.getVisitors().size());
-        }
-
-        if (order.getPosters() != null) {
-            order.getPosters().forEach(poster -> poster.setOrder(order));
-            order.setCountPosters(order.getPosters().size());
+        if (order.getOrderPositions() != null) {
+            order.getOrderPositions().forEach(position -> {
+                position.setOrder(order);
+                position.initPrice();
+            });
         }
 
         if (order.getOrderLogs() == null)
             order.setOrderLogs(new HashSet<>());
         order.getOrderLogs().add(new OrderLogEntity(order, "system", "Bestellung wurde erstellt"));
 
+        order.setOrderDate(new Date());
         getOrderRespository().saveAndFlush(order);
 
-
         sendOrderConfirmation(order);
-
         return order;
-
     }
 
     public void sendOrderConfirmation(OrderEntity order) {
@@ -120,14 +115,20 @@ public class OrderService {
 
     //load order by id
     public OrderEntity loadOrderById(Long id) {
-        return getOrderRespository().findById(id).orElse(null);
+        OrderEntity order = getOrderRespository().findById(id).orElse(null);
+        if (order != null) {
+            order.initCounts();
+        }
+        return order;
     }
 
     //find all orders
     public List<OrderEntity> findAll() {
-        return getOrderRespository().findAll();
+        List<OrderEntity> orderList = getOrderRespository().findAll();
+        if (orderList != null)
+            orderList.forEach(order -> order.initCounts());
+        return orderList;
     }
-
 
     public OrderRespository getOrderRespository() {
         return orderRespository;

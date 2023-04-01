@@ -39,6 +39,11 @@ Ext.define('zowiac.view.order.OrderList', {
         text: 'Liste der Poster',
         iconCls: 'fa fa-file-excel',
         handler: 'exportPoster'
+    }, '-', {
+        xtype: 'button',
+        text: 'Liste der Vorträge',
+        iconCls: 'fa fa-file-excel',
+        handler: 'exportSpeech'
     }],
 
     plugins: {
@@ -56,11 +61,33 @@ Ext.define('zowiac.view.order.OrderList', {
         text: 'ID',
         dataIndex: 'id',
         width: 80
-    }, {text: 'E-Mail', dataIndex: 'email', flex: 1},
-        {text: '#Besucher', dataIndex: 'countVisitors', flex: 1},
-        {text: '#Poster', dataIndex: 'countPosters', flex: 1},
-        {text: 'Rechnungsnummer', dataIndex: 'receiptId', flex: 1},
-        {text: 'Rechnungsdatum', dataIndex: 'receiptDate', flex: 1},
+    }, {
+        text: 'Bestelldatum', dataIndex: 'orderDate', width: 100,
+        renderer: function (dt) {
+            return Ext.Date.format(dt, 'd.m.Y');
+        }
+    },
+        {text: 'name', dataIndex: 'fullname', flex: 1},
+        {text: 'E-Mail', dataIndex: 'email', flex: 1},
+        {text: '#Besucher', dataIndex: 'countVisitors', width: 100},
+        {text: '#Poster', dataIndex: 'countPosters', width: 100},
+        {text: '#Vorträge', dataIndex: 'countSpeeches', width: 100},
+
+        {
+            text: 'Re.Nr.', dataIndex: 'receiptId', width: 100,
+            renderer: function (dt) {
+                if (dt === 0)
+                    return '';
+                return dt;
+            }
+        },
+        {
+            text: 'Re.Datum', dataIndex: 'receiptDate', width: 100,
+            renderer: function (dt) {
+                return Ext.Date.format(dt, 'd.m.Y');
+            }
+        },
+        {text: 'Re.Betrag €', dataIndex: 'receiptSum', width: 100},
         {text: 'Stadt', dataIndex: 'zip', flex: 1},
         {text: 'PLZ', dataIndex: 'city', flex: 1, hidden: true},
         {text: 'Strasse', dataIndex: 'street', flex: 1, hidden: true},
@@ -96,13 +123,6 @@ Ext.define('zowiac.view.order.OrderList', {
                 return v ? 'Ja' : 'Nein';
             },
             flex: 1
-        }, {
-            text: 'erstellt am',
-            dataIndex: 'createDateTime',
-            flex: 1,
-            renderer: function (dt) {
-                return Ext.Date.format(dt, '  d.m.Y H:i');
-            }
         }
     ]
 });

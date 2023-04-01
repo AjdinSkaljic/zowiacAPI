@@ -71,9 +71,9 @@ public class ReceiptPdf {
         Paragraph paragraph = new Paragraph();
         paragraph.setFixedLeading(12);
         paragraph.add(new Text("\n\n\n\n\n\n"));
-        paragraph.add(new Text("Goethe-Universität Frankfurt am Main, xxxx, 60323 Frankfurt am Main\n").setUnderline().setFontSize(8));
+        paragraph.add(new Text("Goethe-Universität Frankfurt am Main, 60629 Frankfurt\n").setUnderline().setFontSize(8));
         paragraph.add(new Text("\n").setFontSize(6));
-        paragraph.add(new Text(order.getName() + "\n").setFontSize(12));
+        paragraph.add(new Text(order.getFirstname() + "\n").setFontSize(12));
         paragraph.add(new Text(order.getStreet() + "\n").setFontSize(12));
         paragraph.add(new Text("\n").setFontSize(4));
         paragraph.add(new Text(order.getZip() + " " + order.getCity() + "\n").setFontSize(12));
@@ -105,19 +105,20 @@ public class ReceiptPdf {
 
 
         for (OrderPositionEntity visitor : order.getVisitors()) {
-            cell = new Cell().setPadding(3).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Teilnahmegebühr " + visitor.getName() + "\ninkl. Verpflegung"));
+            cell = new Cell().setPadding(3).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Teilnahmegebühr " + visitor.getFullname() + "\ninkl. Getränke & Snacks"));
             table.addCell(cell);
             cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("1"));
             table.addCell(cell);
-            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(new Paragraph("20 €"));
+            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(new Paragraph(visitor.getPrice() + " €"));
             table.addCell(cell);
-            cell = new Cell().setHorizontalAlignment(HorizontalAlignment.RIGHT).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("20 €").setHorizontalAlignment(HorizontalAlignment.RIGHT));
+            cell = new Cell().setHorizontalAlignment(HorizontalAlignment.RIGHT).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph(visitor.getPrice() + " €").setHorizontalAlignment(HorizontalAlignment.RIGHT));
             table.addCell(cell);
         }
 
+
         cell = new Cell(1, 3).setPadding(3).setBorder(Border.NO_BORDER).add(new Paragraph(new Text("Gesamtbetrag").setBold()));
         table.addCell(cell);
-        cell = new Cell().setPadding(2).setBorder(Border.NO_BORDER).add(new Paragraph(new Text("20 €").setBold()));
+        cell = new Cell().setPadding(2).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(order.getReceiptSum() + " €").setBold()));
         table.addCell(cell);
 
         return table;
@@ -232,11 +233,11 @@ public class ReceiptPdf {
         }
 
         try {
-            String imageFile = "C:\\Temp/zowiac\\logo.png";
+            String imageFile = "C:\\Temp/zowiac\\zowiac_logo.png";
             ImageData data = ImageDataFactory.create(imageFile);
             Image img = new Image(data);
             img.scaleToFit(100, 100);
-            img.setFixedPosition(450, 700);
+            img.setFixedPosition(450, 690);
             document.add(img);
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,7 +253,7 @@ public class ReceiptPdf {
     //create main  method
     public static void main(String[] args) throws IOException {
         OrderEntity order = new OrderEntity();
-        order.setName("Max Mustermann");
+        order.setFirstname("Max Mustermann");
         order.setStreet("Musterstraße 1");
         order.setZip("12345");
         order.setCity("Musterstadt");
@@ -262,8 +263,8 @@ public class ReceiptPdf {
         order.setReceiptId(new Long(123456));
 
         OrderPositionEntity positionEntity = new OrderPositionEntity();
-        positionEntity.setName("Mustermann");
-        positionEntity.setDescription("Musterbeschreibung");
+        positionEntity.setFirstname("Mustermann");
+        positionEntity.setAbstractNote("Musterbeschreibung");
         positionEntity.setEmail("muster@test.de");
         positionEntity.setType(OrderPositionEntity.TYPE_VISITOR);
         positionEntity.setOrder(order);
@@ -274,8 +275,8 @@ public class ReceiptPdf {
         positions.add(positionEntity);
 
         positionEntity = new OrderPositionEntity();
-        positionEntity.setName("Musterfrau");
-        positionEntity.setDescription("Musterbeschreibung");
+        positionEntity.setFirstname("Musterfrau");
+        positionEntity.setAbstractNote("Musterbeschreibung");
         positionEntity.setEmail("muster@test.de");
         positionEntity.setType(OrderPositionEntity.TYPE_VISITOR);
         positionEntity.setOrder(order);
