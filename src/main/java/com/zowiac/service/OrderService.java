@@ -1,5 +1,6 @@
 package com.zowiac.service;
 
+import com.zowiac.commons.BusinessException;
 import com.zowiac.commons.EmailText;
 import com.zowiac.model.OrderEntity;
 import com.zowiac.model.OrderLogEntity;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Component
 public class OrderService {
+    private Logger logger = Logger.getLogger(OrderService.class.getName());
 
     private final OrderRespository orderRespository;
     private final EmailService emailService;
@@ -45,8 +49,11 @@ public class OrderService {
         try {
             getEmailService().sendMail(order.getEmail(), "Bestellung bei Zowiac", EmailText.createBestellbestaetigung(order));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim versenden der Bestellbestätigung", e);
         }
+
+        //TODO: Eine Weitere Email an info@zowiac.eu
+
     }
 
     public void cancelOrder(Long orderId, String userName) {
@@ -73,18 +80,19 @@ public class OrderService {
                 getOrderRespository().save(order);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim erstellen der Rechnung", e);
         }
     }
 
-    public void sendReceipt(Long orderId, String userName) {
+    public void sendReceipt(Long orderId, String userName) throws BusinessException {
         try {
             OrderEntity order = getOrderRespository().findById(orderId).get();
+            ReceiptPdf receiptPdf = new ReceiptPdf(order);
+            byte[] pdfAsBytes = receiptPdf.createPdf();
             if (!order.isCanceled() && !order.isReceiptSent()) {
-                ReceiptPdf receiptPdf = new ReceiptPdf(order);
-                byte[] pdfAsBytes = receiptPdf.createPdf();
 
-                getEmailService().sendMail(order.getEmail(), "Ihre Rechnung - Rechnungsnummer " + order.getReceiptId(), EmailText.createTextRechnung(order), pdfAsBytes);
+                getEmailService().sendMail(order.getEmail(), "Ihre Rechnung - Rechnungsnummer " + order.getReceiptId(),
+                        EmailText.createTextRechnung(order), "Rechnung_" + order.getReceiptId().toString(), pdfAsBytes);
 
                 order.setReceiptSent(true);
 
@@ -92,7 +100,8 @@ public class OrderService {
                 getOrderRespository().saveAndFlush(order);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim versenden der Rechnung", e);
+            throw new BusinessException("Fehler beim versenden der Rechnung" + e.getMessage());
         }
     }
 
@@ -108,7 +117,7 @@ public class OrderService {
             order.getOrderLogs().add(new OrderLogEntity(order, userName, "Rechnung wurde verbucht"));
             getOrderRespository().save(order);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim Verbuchen der Rechnung", e);
         }
     }
 

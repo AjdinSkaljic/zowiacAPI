@@ -17,6 +17,7 @@ import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.zowiac.model.OrderEntity;
 import com.zowiac.model.OrderPositionEntity;
@@ -27,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ReceiptPdf {
@@ -89,41 +91,62 @@ public class ReceiptPdf {
         table.setMarginTop(50);
         table.setWidth(UnitValue.createPercentValue(100));
 
-
         table.setFontSize(10);
         table.setBorder(Border.NO_BORDER);
 
 
         Cell cell = new Cell().setPadding(3).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Leistung"));
         table.addCell(cell);
-        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Menge"));
+
+        Paragraph text = new Paragraph("Menge");
+        text.setTextAlignment(TextAlignment.CENTER);
+        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(text);
         table.addCell(cell);
-        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(new Paragraph("Preis"));
+
+        text = new Paragraph("Preis");
+        text.setTextAlignment(TextAlignment.RIGHT);
+        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(text);
         table.addCell(cell);
-        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(new Paragraph("Gesamtpreis"));
+
+        text = new Paragraph("Gesamtpreis");
+        text.setTextAlignment(TextAlignment.RIGHT);
+        cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(text);
         table.addCell(cell);
 
 
         for (OrderPositionEntity visitor : order.getVisitors()) {
-            cell = new Cell().setPadding(3).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Teilnahmegebühr " + visitor.getFullname() + "\ninkl. Getränke & Snacks"));
+            cell = new Cell().setPadding(3).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("Teilnahmegebühr " + visitor.getFullname()));
             table.addCell(cell);
-            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph("1"));
+
+            text = new Paragraph("1");
+            text.setTextAlignment(TextAlignment.CENTER);
+            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(text);
             table.addCell(cell);
-            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(new Paragraph(visitor.getPrice() + " €"));
+
+            text = new Paragraph(visitor.getPrice() + " €");
+            text.setTextAlignment(TextAlignment.RIGHT);
+            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).setHorizontalAlignment(HorizontalAlignment.RIGHT).add(text);
             table.addCell(cell);
-            cell = new Cell().setHorizontalAlignment(HorizontalAlignment.RIGHT).setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(new Paragraph(visitor.getPrice() + " €").setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+
+            text = new Paragraph(visitor.getPrice() + " €");
+            text.setTextAlignment(TextAlignment.RIGHT);
+
+            cell = new Cell().setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(0.5f)).add(text);
             table.addCell(cell);
         }
 
-
-        cell = new Cell(1, 3).setPadding(3).setBorder(Border.NO_BORDER).add(new Paragraph(new Text("Gesamtbetrag").setBold()));
+        text = new Paragraph(new Text("Gesamtbetrag").setBold());
+        text.setTextAlignment(TextAlignment.RIGHT);
+        cell = new Cell(1, 3).setPadding(3).setBorder(Border.NO_BORDER).add(text);
         table.addCell(cell);
-        cell = new Cell().setPadding(2).setBorder(Border.NO_BORDER).add(new Paragraph(new Text(order.getReceiptSum() + " €").setBold()));
+
+        text = new Paragraph(new Text(order.getReceiptSum() + " €").setBold());
+        text.setTextAlignment(TextAlignment.RIGHT);
+        cell = new Cell().setPadding(2).setBorder(Border.NO_BORDER).add(text);
         table.addCell(cell);
 
         return table;
-
-
     }
 
 
@@ -148,11 +171,12 @@ public class ReceiptPdf {
 
 
     private IBlockElement createZahlungsaufforderung() {
+        //TODO: Als grauen block ausgeben
         UnitValue[] widths = {UnitValue.createPercentValue(10), UnitValue.createPercentValue(90)};
 
         Table table = new Table(widths).setMarginTop(20).setFontSize(10).setWidth(UnitValue.createPercentValue(100));
         table.setBackgroundColor(new DeviceRgb(232, 232, 232));
-        Cell cell = new Cell(1, 2).add(new Paragraph("Der aktuell zu zahlende Betrag beträgt 20 €")).setBorder(Border.NO_BORDER);
+        Cell cell = new Cell(1, 2).add(new Paragraph("Der aktuell zu zahlende Betrag beträgt " + order.getReceiptSum() + "€")).setBorder(Border.NO_BORDER);
         table.addCell(cell);
 
         table.addCell(getCell("Kontoinhaber:", true, false));
@@ -164,7 +188,7 @@ public class ReceiptPdf {
         table.addCell(getCell("BIC:", true, false));
         table.addCell(getCell("HELADEFFXXX", true, false));
         table.addCell(getCellBold("Verwendungszweck:", true, false, 1));
-        table.addCell(getCellBold(order.getReceiptId().toString(), true, false, 1));
+        table.addCell(getCellBold(order.getReceiptWithProjekt(), true, false, 1));
 
         return table;
     }
@@ -180,11 +204,11 @@ public class ReceiptPdf {
         table.setHorizontalAlignment(HorizontalAlignment.RIGHT);
         table.addCell(getCellBold("Rechnung", true, false, 2));
         table.addCell(getCell("Rechnungsnummer: ", true, false));
-        table.addCell(getCell(order.getReceiptId().toString(), true, false));
+        table.addCell(getCell(order.getReceiptWithProjekt().toString(), true, false));
         table.addCell(getCell("Datum: ", true, false));
         table.addCell(getCell(order.getReceiptDateFormatted(), true, false));
         table.addCell(getCell("Bestellnummer: ", true, false));
-        table.addCell(getCell(order.getId().toString(), true, false));
+        table.addCell(getCell(order.getIdFormated(), true, false));
         table.addCell(getCell("E-Mail: ", true, false));
         table.addCell(getCell("info@zowiac.eu", true, false));
         table.addCell(getCell("Tel.: ", true, false));
@@ -222,8 +246,7 @@ public class ReceiptPdf {
 
     private void addLogo(Document document) {
         try {
-            String imageFile = "C:\\Temp/zowiac\\logo.png";
-            ImageData data = ImageDataFactory.create(imageFile);
+            ImageData data = ImageDataFactory.create(Objects.requireNonNull(Objects.requireNonNull(this.getClass().getClassLoader().getResource("logo.png")).toString()));
             Image img = new Image(data);
             img.scaleToFit(100, 100);
             img.setFixedPosition(450, 760);
@@ -233,8 +256,7 @@ public class ReceiptPdf {
         }
 
         try {
-            String imageFile = "C:\\Temp/zowiac\\zowiac_logo.png";
-            ImageData data = ImageDataFactory.create(imageFile);
+            ImageData data = ImageDataFactory.create(Objects.requireNonNull(this.getClass().getClassLoader().getResource("zowiac_logo.png")).toString());
             Image img = new Image(data);
             img.scaleToFit(100, 100);
             img.setFixedPosition(450, 690);
@@ -258,9 +280,9 @@ public class ReceiptPdf {
         order.setZip("12345");
         order.setCity("Musterstadt");
 
-        order.setId(new Long(123456));
+        order.setId(new Long(22));
         order.setReceiptDate(new Date());
-        order.setReceiptId(new Long(123456));
+        order.setReceiptId(new Long(18));
 
         OrderPositionEntity positionEntity = new OrderPositionEntity();
         positionEntity.setFirstname("Mustermann");

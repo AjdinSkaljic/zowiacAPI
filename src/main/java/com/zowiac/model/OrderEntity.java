@@ -86,6 +86,10 @@ public class OrderEntity {
         return id;
     }
 
+    public String getIdFormated() {
+        return String.format("%04d", getId());
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -109,6 +113,10 @@ public class OrderEntity {
 
     public Long getReceiptId() {
         return receiptId;
+    }
+
+    public String getReceiptWithProjekt() {
+        return "64150113/" + String.format("%04d", getReceiptId());
     }
 
     public void setReceiptId(Long receiptId) {

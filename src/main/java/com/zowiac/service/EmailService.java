@@ -12,7 +12,7 @@ import javax.mail.util.ByteArrayDataSource;
 @Component
 public class EmailService {
     private final static int port = 465;
-    private final static  String hostName = "smtp.strato.de";
+    private final static String hostName = "smtp.strato.de";
     private final JavaMailSender mailSender;
 
     @Autowired
@@ -34,8 +34,7 @@ public class EmailService {
     }
 
 
-    //send mail with attachment
-    public void sendMail(String to, String subject, String body, byte[] pdfAsBytes) throws Exception {
+    public void sendMail(String to, String subject, String body, String attachmentName, byte[] pdfAsBytes) throws Exception {
         MultiPartEmail email = new MultiPartEmail();
         email.setHostName(hostName);
         email.setSmtpPort(port);
@@ -45,12 +44,15 @@ public class EmailService {
         email.setSubject(subject);
         email.setMsg(body);
         email.addTo(to);
-        email.attach(new ByteArrayDataSource(pdfAsBytes, "application/pdf"), "Rechnung.pdf", "application/pdf");
+        email.attach(new ByteArrayDataSource(pdfAsBytes, "application/pdf"), attachmentName + ".pdf", "application/pdf");
         email.send();
+
+        //Kopie senden an debitoren@verwaltung.uni-frankfurt.de
+        //Test geht an wenz@em.uni-frankfurt.de
     }
 
 
-    private Authenticator getAuthenticator(){
+    private Authenticator getAuthenticator() {
         return new DefaultAuthenticator("info@zowiac.eu", "A4yimdjYk2ySX9q");
     }
 

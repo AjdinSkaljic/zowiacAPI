@@ -114,7 +114,7 @@ public class OrderController {
 
     @GetMapping("/orders/sendReceipt/{id}")
     @ResponseBody
-    public void sendReceipt(@PathVariable("id") Long id, HttpServletRequest request) {
+    public void sendReceipt(@PathVariable("id") Long id, HttpServletRequest request) throws Exception {
         getOrderService().sendReceipt(id, request.getRemoteUser());
     }
 
