@@ -49,7 +49,7 @@ public class OrderController {
             response.getWriter().println("ID;Teilnehmer; E-Mail; Type; Besteller;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
-                    if (order.isSettled()) {
+                    if (!order.isCanceled()) {
                         for (OrderPositionEntity visitor : order.getVisitors()) {
                             try {
                                 response.getWriter().println(order.getId() + ";" + visitor.getFullname() + ";" + visitor.getEmail() + ";" + visitor.getDiscountTypeFormatted() + "; " + order.getFullname() + ";" +
@@ -65,7 +65,7 @@ public class OrderController {
             response.getWriter().println("ID;Titel; Thema; Abstract;sonst. Hinweis;Besteller ;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
-                    if (order.isSettled()) {
+                    if (!order.isCanceled()) {
                         for (OrderPositionEntity poster : order.getPosters()) {
                             try {
                                 response.getWriter().println(order.getId() + ";" + poster.getName() + ";" + poster.getTopicFormatted() + ";" + poster.getAbstractNote() + ";" + poster.getNote() + ";" +

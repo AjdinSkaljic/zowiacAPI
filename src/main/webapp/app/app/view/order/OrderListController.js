@@ -68,16 +68,16 @@ Ext.define('zowiac.view.order.OrderListController', {
 
     exportSpeech: function () {
         Ext.log('exportSpeech');
-        window.open(urlPrefix + '/api/orders/export/S');
+        window.open(urlPrefix + 'api/orders/export/S');
     },
 
     exportBesucher: function () {
         Ext.log('exportBesucher');
-        window.open(urlPrefix + '/api/orders/export/V');
+        window.open(urlPrefix + 'api/orders/export/V');
     },
 
     exportPoster: function () {
         Ext.log('exportBesucher');
-        window.open(urlPrefix + '/api/orders/export/P');
+        window.open(urlPrefix + 'api/orders/export/P');
     }
 });
