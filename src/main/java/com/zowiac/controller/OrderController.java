@@ -52,8 +52,14 @@ public class OrderController {
                     if (!order.isCanceled()) {
                         for (OrderPositionEntity visitor : order.getVisitors()) {
                             try {
-                                response.getWriter().println(order.getId() + ";" + visitor.getFullname() + ";" + visitor.getEmail() + ";" + visitor.getDiscountTypeFormatted() + "; " + order.getFullname() + ";" +
-                                        order.getOrderDateFormatted());
+                                StringBuilder line = new StringBuilder();
+                                addFieldCSV(line, order.getId().toString());
+                                addFieldCSV(line, visitor.getFullname());
+                                addFieldCSV(line, visitor.getEmail());
+                                addFieldCSV(line, visitor.getDiscountTypeFormatted());
+                                addFieldCSV(line, order.getFullname());
+                                addFieldCSVLast(line, order.getOrderDateFormatted());
+                                response.getWriter().println(line);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -68,8 +74,15 @@ public class OrderController {
                     if (!order.isCanceled()) {
                         for (OrderPositionEntity poster : order.getPosters()) {
                             try {
-                                response.getWriter().println(order.getId() + ";" + poster.getName() + ";" + poster.getTopicFormatted() + ";" + poster.getAbstractNote() + ";" + poster.getNote() + ";" +
-                                        order.getFullname() + ";" + order.getOrderDateFormatted());
+                                StringBuilder line = new StringBuilder();
+                                addFieldCSV(line, order.getId().toString());
+                                addFieldCSV(line, poster.getName());
+                                addFieldCSV(line, poster.getTopicFormatted());
+                                addFieldCSV(line, poster.getAbstractNote());
+                                addFieldCSV(line, poster.getNote());
+                                addFieldCSV(line, order.getFullname());
+                                addFieldCSVLast(line, order.getOrderDateFormatted());
+                                response.getWriter().println(line);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -84,8 +97,14 @@ public class OrderController {
                     if (order.isSettled()) {
                         for (OrderPositionEntity poster : order.getPosters()) {
                             try {
-                                response.getWriter().println(order.getId() + ";" + poster.getName() + ";" + poster.getAbstractNote() + ";" + poster.getNote() + ";" +
-                                        order.getFullname() + ";" + order.getOrderDateFormatted());
+                                StringBuilder line = new StringBuilder();
+                                addFieldCSV(line, order.getId().toString());
+                                addFieldCSV(line, poster.getName());
+                                addFieldCSV(line, poster.getAbstractNote());
+                                addFieldCSV(line, poster.getNote());
+                                addFieldCSV(line, order.getFullname());
+                                addFieldCSVLast(line, order.getOrderDateFormatted());
+                                response.getWriter().println(line);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -94,11 +113,22 @@ public class OrderController {
                 });
             }
         }
-
-
         response.getWriter().close();
-
     }
+
+    private void addFieldCSV(StringBuilder line, String field) {
+        line.append("\"");
+        if (field != null)
+            line.append(field.replaceAll("\"", "\"\""));
+        line.append("\"");
+        line.append(";");
+    }
+
+    private void addFieldCSVLast(StringBuilder line, String field) {
+        addFieldCSV(line, field);
+        line.append(";");
+    }
+
 
     @GetMapping("/orders/cancel/{id}")
     @ResponseBody
