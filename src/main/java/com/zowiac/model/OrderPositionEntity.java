@@ -72,6 +72,10 @@ public class OrderPositionEntity {
     @Column(name = "price")
     private Double price;
 
+    @Basic
+    @Column(name = "followup")
+    private boolean followup;
+
 
     public OrderPositionEntity() {
     }
@@ -182,6 +186,14 @@ public class OrderPositionEntity {
     }
 
 
+    public boolean isFollowup() {
+        return followup;
+    }
+
+    public void setFollowup(boolean followup) {
+        this.followup = followup;
+    }
+
     public String getTopic() {
         return topic;
     }
@@ -211,6 +223,31 @@ public class OrderPositionEntity {
 
         return fullname;
     }
+
+
+    public String getAnredeMail() {
+        if (sex == null) {
+            return "Sehr geehrte Damen und Herren,";
+        }
+
+        String anrede = "";
+        if (sex.equals("f"))
+            anrede = "Sehr geehrte Frau ";
+        else if (sex.equals("m"))
+            anrede = "Sehr geehrter Herr ";
+        else
+            return "Sehr geehrte Damen und Herren,";
+
+        if (this.title != null) {
+            if (title.equals("dr"))
+                anrede += "Dr. ";
+            else if (title.equals("prof"))
+                anrede += "Prof. Dr. ";
+        }
+
+        return anrede + this.lastname + ",";
+    }
+
 
     public String getDiscountTypeFormatted() {
         if (discountType != null && discountType.equals(DISCOUNT_TYPE_STUDENT))

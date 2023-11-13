@@ -13,6 +13,8 @@ Ext.define('zowiac.view.order.OrderList', {
 
     title: 'Tickets',
 
+    multiSelect: true,
+
     store: {
         type: 'order'
     },
@@ -44,6 +46,11 @@ Ext.define('zowiac.view.order.OrderList', {
         text: 'Liste der Vorträge',
         iconCls: 'fa fa-file-excel',
         handler: 'exportSpeech'
+    }, '-', {
+        xtype: 'button',
+        text: 'E-Mail Followup',
+        iconCls: 'fa fa-plane',
+        handler: 'sendMailFollowup'
     }],
 
     plugins: {
@@ -90,7 +97,7 @@ Ext.define('zowiac.view.order.OrderList', {
         {text: 'Re.Betrag €', dataIndex: 'receiptSum', width: 100},
         {text: 'Stadt', dataIndex: 'zip', flex: 1},
         {text: 'PLZ', dataIndex: 'city', flex: 1, hidden: true},
-        {text: 'Strasse', dataIndex: 'street', flex: 1, hidden: true},
+        {text: 'Straße', dataIndex: 'street', flex: 1, hidden: true},
         {
             text: 'Rechnung erstellt',
             dataIndex: 'receiptCreated',
@@ -123,6 +130,14 @@ Ext.define('zowiac.view.order.OrderList', {
                 return v ? 'Ja' : 'Nein';
             },
             flex: 1
+        }, {
+            text: 'Followup',
+            dataIndex: 'followup',
+            renderer: function (v) {
+                return v ? 'Ja' : 'Nein';
+            },
+            flex: 1
         }
+
     ]
 });

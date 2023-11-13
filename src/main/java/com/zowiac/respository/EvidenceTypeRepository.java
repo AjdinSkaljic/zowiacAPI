@@ -9,4 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface EvidenceTypeRepository extends JpaRepository<EvidenceTypeEntity, Long> {
 
+
+    //find all by language
+
+
+
 }

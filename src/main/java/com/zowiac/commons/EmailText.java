@@ -91,7 +91,6 @@ public class EmailText {
             text += "\n";
         }
 
-        //TODO: Gesamtbetrag ausgeben
 
         text += "\n\nIhre Anmeldenummer lautet " + orderEntity.getId() + ". Bitte bewahren Sie diese Nummer für Ihre Unterlagen auf, falls Sie später Fragen zu Ihrer Anmeldung haben sollten.\n\n" +
                 "Nach der Bearbeitung Ihrer Anmeldung werden wir Ihnen eine separate E-Mail mit Rechnung zusenden und eine E-Mail mit weiteren Informationen zur Konferenz.\n\n" +
@@ -100,6 +99,25 @@ public class EmailText {
 
 
         return text;
+    }
+
+
+    public static String createTeilnahmeFollowup(OrderPositionEntity orderEntity) {
+        return orderEntity.getAnredeMail() + "\n\n" +
+
+                "Es war uns eine große Freude, Sie bei der " + KONF_NAME + " begrüßen zu dürfen. Wir sind stolz darauf, dass die Veranstaltung ein großer Erfolg war und möchten uns herzlich bei Ihnen für Ihre Teilnahme und Ihr Engagement bedanken.\n\n" +
+
+                "Um sicherzustellen, dass Sie den größtmöglichen Nutzen aus der Konferenz ziehen, freuen wir uns, Ihnen den Zugang zu den freigegebenen Vorträgen zur Verfügung zu stellen. Sie können die Dateien über den folgenden Link herunterladen:\n\n" +
+                "https://zowiac.eu/vortrage-zowiac_konferenz_2023.zip\n\n" +
+
+                "Falls Sie Fragen zu den Vorträgen haben oder weitere Informationen benötigen, zögern Sie bitte nicht, sich an uns zu wenden. Ihr Feedback ist uns ebenfalls sehr willkommen, da es uns hilft, zukünftige Veranstaltungen noch besser zu gestalten.\n\n" +
+
+                "Wir möchten Sie auch darüber informieren, dass während der Konferenz Fotos aufgenommen wurden. " +
+                "Diese Aufnahmen würden wir gerne in Teilen auf der Zowiac Webseite veröffentlichen. Sollten Sie Einwände gegen die Verwendung Ihrer Bilder haben, teilen Sie uns dies bitte umgehend mit.\n\n" +
+
+                "Vielen Dank für Ihre Teilnahme und Ihr Interesse. \n\n" +
+                "Mit freundlichen Grüßen,\n" +
+                "Ihr ZOWIAC-Team";
     }
 
 

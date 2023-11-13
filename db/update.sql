@@ -1,3 +1,16 @@
+
+
+ALTER TABLE `zowiac_map`.`users`
+    CHANGE COLUMN `zowiac` `language` VARCHAR(2) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NOT  NULL DEFAULT 'DE';
+
+
+alter table evidence_types
+    add name_en varchar(64) null;
+
+
+
+
+
 ALTER TABLE `zowiac_map`.`animals`
     CHANGE COLUMN `zowiac` `report_type` VARCHAR(1) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NULL DEFAULT NULL ;
 

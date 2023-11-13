@@ -50,6 +50,11 @@ Ext.define('zowiac.view.evidenceType.EvidenceTypeList', {
         dataIndex: 'name',
         flex: 1
     }, {
+        text: 'Art (englisch)',
+        dataIndex: 'nameEn',
+        flex: 1,
+        hidden: true
+    }, {
         text: 'Standard',
         dataIndex: 'preselect',
         width: 120,
@@ -67,7 +72,7 @@ Ext.define('zowiac.view.evidenceType.EvidenceTypeList', {
                 return 'Ja';
             return '';
         }
-    },{
+    }, {
         text: 'Ämter anzeigen',
         tooltip: 'Bei der Auswahl dieser Art werden die Ämter automatisch angezeigt',
         dataIndex: 'displayAuthorities',

@@ -9,6 +9,8 @@ Ext.define('zowiac.model.User', {
         {name: 'userRolesNames', type: 'string'},
         {name: 'hunter', type: 'string'},
         {name: 'skipTutorial', type: 'string'},
+        {name: 'language', type: 'string'},
+        {name: 'languageName', type: 'string'}
     ],
 
     idProperty: 'username',

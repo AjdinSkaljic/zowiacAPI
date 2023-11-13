@@ -1,6 +1,7 @@
 package com.zowiac.service;
 
 import com.zowiac.model.ApplicationData;
+import com.zowiac.model.UserEntity;
 import com.zowiac.respository.AnimalRepository;
 import com.zowiac.respository.EvidenceTypeRepository;
 import com.zowiac.respository.HideTypeRepository;
@@ -25,11 +26,15 @@ public class ApplicationService {
     }
 
     public ApplicationData loadApplicationData(String userName) {
+
         ApplicationData applicationData = new ApplicationData();
+
+        UserEntity userEntity = getUserRepository().findById(userName).get();
+
         applicationData.setEvidenceTypes(getEvidenceTypeRepository().findAll());
         applicationData.setAnimals(getAnimalRepository().findOnlyForReporting());
         applicationData.setHideTypes(getHideTypeRepository().findAll());
-        applicationData.setUser(getUserRepository().findById(userName).get());
+        applicationData.setUser(userEntity);
         return applicationData;
 
     }

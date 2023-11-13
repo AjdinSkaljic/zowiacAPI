@@ -60,6 +60,10 @@ Ext.define('zowiac.view.users.UsersList', {
         dataIndex: 'lastname',
         flex: 1
     }, {
+        text: 'Sprache',
+        dataIndex: 'languageName',
+        flex: 1
+    }, {
         text: 'Rolle(n)',
         dataIndex: 'userRolesNames',
         flex: 1

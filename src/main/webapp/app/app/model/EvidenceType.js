@@ -3,6 +3,7 @@ Ext.define('zowiac.model.EvidenceType', {
     fields: [
         {name: 'id', type: 'string'},
         {name: 'name', type: 'string'},
+        {name: 'nameEm', type: 'string'},
         {name: 'hunting', type: 'string'},
         {name: 'preselect', type: 'string'},
         {name: 'displayAuthorities', type: 'string'}
@@ -21,5 +22,6 @@ Ext.define('zowiac.model.EvidenceType', {
     }
 
 });
+
 
 

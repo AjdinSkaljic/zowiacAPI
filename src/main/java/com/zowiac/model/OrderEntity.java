@@ -318,6 +318,19 @@ public class OrderEntity {
     }
 
 
+    public boolean isFollowup() {
+        try {
+            for (OrderPositionEntity visitor : getVisitors())
+                if (!visitor.isFollowup())
+                    return false;
+        } catch (Exception ignore) {
+            return false;
+
+        }
+        return true;
+    }
+
+
     public void initCounts() {
         if (orderPositions != null) {
             countVisitors = (int) orderPositions.stream().filter(orderPositionEntity -> orderPositionEntity.getType().equals(OrderPositionEntity.TYPE_VISITOR)).count();

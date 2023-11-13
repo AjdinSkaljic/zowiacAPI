@@ -46,6 +46,15 @@ Ext.define('zowiac.view.users.UsersForm', {
         }, {
             allowBlank: false,
             xtype: 'combo',
+            fieldLabel: 'Sprache',
+            name: 'language',
+            labelWidth: 120,
+            value: 'de',
+            store: [['de', 'deutsch'], ['en', 'englisch']],
+            queryMode: 'local'
+        }, {
+            allowBlank: false,
+            xtype: 'combo',
             fieldLabel: 'Rolle',
             name: 'userRole',
             labelWidth: 120,

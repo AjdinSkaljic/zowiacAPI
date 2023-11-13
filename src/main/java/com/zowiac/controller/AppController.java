@@ -216,7 +216,7 @@ public class AppController {
 
     @GetMapping(path = "/public/evidences/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public List<EvidenceTypeEntity> findAllEvidences() {
+    public List<EvidenceTypeEntity> findAllEvidences(@RequestParam(required = false) String language) {
         return getReportService().getEvidenceTypeRepository().findAll();
     }
 

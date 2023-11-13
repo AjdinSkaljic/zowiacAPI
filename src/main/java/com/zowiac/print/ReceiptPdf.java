@@ -52,6 +52,8 @@ public class ReceiptPdf {
 
         document.add(createRechnungsinfo());
 
+        document.add(createLE());
+
         document.add(createLeistungen());
 
         document.add(createZahlungsbedingungen());
@@ -75,7 +77,17 @@ public class ReceiptPdf {
         paragraph.add(new Text("\n\n\n\n\n\n"));
         paragraph.add(new Text("Goethe-Universität Frankfurt am Main, 60629 Frankfurt\n").setUnderline().setFontSize(8));
         paragraph.add(new Text("\n").setFontSize(6));
-        paragraph.add(new Text(order.getFirstname() + "\n").setFontSize(12));
+
+        String name = order.getFirstname() + " " + order.getLastname();
+        if (order.getCompany() != null) {
+            if (name.trim().isEmpty())
+                name = order.getCompany();
+            else {
+                if (!order.getCompany().trim().isEmpty())
+                    name += "\n" + order.getCompany();
+            }
+        }
+        paragraph.add(new Text(name + "\n").setFontSize(12));
         paragraph.add(new Text(order.getStreet() + "\n").setFontSize(12));
         paragraph.add(new Text("\n").setFontSize(4));
         paragraph.add(new Text(order.getZip() + " " + order.getCity() + "\n").setFontSize(12));
@@ -88,7 +100,8 @@ public class ReceiptPdf {
     private IBlockElement createLeistungen() {
         UnitValue[] widths = {UnitValue.createPercentValue(55), UnitValue.createPercentValue(15), UnitValue.createPercentValue(15), UnitValue.createPercentValue(15)};
         Table table = new Table(widths);
-        table.setMarginTop(50);
+        //table.setMarginTop(50);
+        table.setMarginTop(15);
         table.setWidth(UnitValue.createPercentValue(100));
 
         table.setFontSize(10);
@@ -152,17 +165,44 @@ public class ReceiptPdf {
 
     private IBlockElement createZahlungsbedingungen() {
         Paragraph paragraph = new Paragraph();
-        paragraph.setMarginTop(30);
+        //paragraph.setMarginTop(30);
+        paragraph.setMarginTop(15);
         paragraph.setFixedLeading(12);
-        paragraph.add(new Text("Die sonstige Leistungen sind steuerfrei nach § 4 Nr 22 a) UStG.\n\n"));
+        paragraph.add(new Text("Die sonstige Leistungen sind steuerfrei nach § 4 Nr 22 a) UStG.\n"));
         paragraph.add(new Text("Zahlbar innerhalb von 14 Tagen nach Rechnungsdatum.\n"));
+
+        return paragraph;
+    }
+
+
+    private IBlockElement createLE() {
+        Paragraph paragraph = new Paragraph();
+        paragraph.setMarginTop(10);
+        paragraph.setFixedLeading(12);
+        Text text = new Text("Leistungsempfänger\n");
+        text.setBold();
+        paragraph.add(text);
+
+
+
+        paragraph.add(new Text("HessenForst\n" +
+                "Forstamt Schlüchtern Dienststelle 1167\n" +
+                "Buchungskreis 2850\n" +
+                "Schloßstr. 24\n" +
+                "36381 Schlüchtern\n\n"));
+
+        text = new Text("Anforderer\n");
+        text.setBold();
+        paragraph.add(text);
+        paragraph.add(new Text("ForstamtSchluechtern@forst.hessen.de\n"));
 
         return paragraph;
     }
 
     private IBlockElement createUnterschrift() {
         Paragraph paragraph = new Paragraph();
-        paragraph.setMarginTop(20);
+        //paragraph.setMarginTop(20);
+        paragraph.setMarginTop(10);
         paragraph.setFixedLeading(12);
         paragraph.add(new Text("Diese Rechnung wurde elektronisch erstellt und ist ohne Unterschrift gültig.\n"));
 
@@ -275,18 +315,24 @@ public class ReceiptPdf {
     //create main  method
     public static void main(String[] args) throws IOException {
         OrderEntity order = new OrderEntity();
-        order.setFirstname("Max Mustermann");
-        order.setStreet("Musterstraße 1");
-        order.setZip("12345");
-        order.setCity("Musterstadt");
+        order.setFirstname("HCC Hessisches ");
+        order.setLastname("Competence Center");
+        order.setStreet("Buchungskreis 2850 Dienststelle 1167");
+        order.setZip("65165");
+        order.setCity("Wiesbaden");
+        order.setCompany("Zentrale Scan Stelle");
+
 
         order.setId(new Long(22));
         order.setReceiptDate(new Date());
         order.setReceiptId(new Long(18));
 
         OrderPositionEntity positionEntity = new OrderPositionEntity();
-        positionEntity.setFirstname("Mustermann");
-        positionEntity.setAbstractNote("Musterbeschreibung");
+        positionEntity.setFirstname("Gisela");
+        positionEntity.setLastname("Rösch");
+        positionEntity.setPrice(60.0);
+        positionEntity.setSex("Frau");
+
         positionEntity.setEmail("muster@test.de");
         positionEntity.setType(OrderPositionEntity.TYPE_VISITOR);
         positionEntity.setOrder(order);
@@ -296,14 +342,6 @@ public class ReceiptPdf {
 
         positions.add(positionEntity);
 
-        positionEntity = new OrderPositionEntity();
-        positionEntity.setFirstname("Musterfrau");
-        positionEntity.setAbstractNote("Musterbeschreibung");
-        positionEntity.setEmail("muster@test.de");
-        positionEntity.setType(OrderPositionEntity.TYPE_VISITOR);
-        positionEntity.setOrder(order);
-
-        positions.add(positionEntity);
         order.setOrderPositions(positions);
 
 

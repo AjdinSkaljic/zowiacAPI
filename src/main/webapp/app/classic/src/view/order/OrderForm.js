@@ -65,7 +65,7 @@ Ext.define('zowiac.view.order.OrderForm', {
                 minWidth: 250
             }]
         }, {
-            fieldLabel: 'Strasse',
+            fieldLabel: 'Straße',
             name: 'street',
             xtype: 'textfield',
             minWidth: 400,

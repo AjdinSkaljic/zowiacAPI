@@ -34,6 +34,9 @@ public class UserEntity {
     @Column(name = "skip_tutorial_report")
     private String skipTutorialReport;
 
+    @Column(name = "language")
+    private String language;
+
     @JsonIgnore
     private transient List<UserRolesEntity> userRoles;
 
@@ -165,4 +168,22 @@ public class UserEntity {
     public boolean isHunter() {
         return (hunter != null && hunter.equals("J"));
     }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getLanguageName() {
+        if (language != null && language.equals("en"))
+            return "English";
+        else
+            return "Deutsch";
+
+    }
+
+
 }

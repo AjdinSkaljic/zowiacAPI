@@ -46,7 +46,7 @@ public class OrderController {
         List<OrderEntity> orders = getOrderService().findAll();
 
         if (art.equals(OrderPositionEntity.TYPE_VISITOR)) {
-            response.getWriter().println("ID;Teilnehmer; E-Mail; Type; Besteller;Datum;");
+            response.getWriter().println("ID;Teilnehmer;Organisation;E-Mail;Type;Besteller;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
                     if (!order.isCanceled()) {
@@ -55,6 +55,7 @@ public class OrderController {
                                 StringBuilder line = new StringBuilder();
                                 addFieldCSV(line, order.getId().toString());
                                 addFieldCSV(line, visitor.getFullname());
+                                addFieldCSV(line, order.getCompany());
                                 addFieldCSV(line, visitor.getEmail());
                                 addFieldCSV(line, visitor.getDiscountTypeFormatted());
                                 addFieldCSV(line, order.getFullname());
@@ -94,14 +95,14 @@ public class OrderController {
             response.getWriter().println("ID;Titel; Abstract; sonst. Hinweis;Besteller ;Datum;");
             if (orders != null) {
                 orders.forEach(order -> {
-                    if (order.isSettled()) {
-                        for (OrderPositionEntity poster : order.getPosters()) {
+                    if (!order.isCanceled()) {
+                        for (OrderPositionEntity speech : order.getSpeeches()) {
                             try {
                                 StringBuilder line = new StringBuilder();
                                 addFieldCSV(line, order.getId().toString());
-                                addFieldCSV(line, poster.getName());
-                                addFieldCSV(line, poster.getAbstractNote());
-                                addFieldCSV(line, poster.getNote());
+                                addFieldCSV(line, speech.getName());
+                                addFieldCSV(line, speech.getAbstractNote());
+                                addFieldCSV(line, speech.getNote());
                                 addFieldCSV(line, order.getFullname());
                                 addFieldCSVLast(line, order.getOrderDateFormatted());
                                 response.getWriter().println(line);
@@ -146,6 +147,13 @@ public class OrderController {
     @ResponseBody
     public void sendReceipt(@PathVariable("id") Long id, HttpServletRequest request) throws Exception {
         getOrderService().sendReceipt(id, request.getRemoteUser());
+    }
+
+
+    @GetMapping("/orders/sendFollowup/{ids}")
+    @ResponseBody
+    public void sendFollowup(@PathVariable("ids") Long[] ids, HttpServletRequest request) throws Exception {
+        getOrderService().sendParticipationFollowup(ids, request.getRemoteUser());
     }
 
 

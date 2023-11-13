@@ -4,6 +4,7 @@ import com.zowiac.commons.BusinessException;
 import com.zowiac.commons.EmailText;
 import com.zowiac.model.OrderEntity;
 import com.zowiac.model.OrderLogEntity;
+import com.zowiac.model.OrderPositionEntity;
 import com.zowiac.print.ReceiptPdf;
 import com.zowiac.respository.OrderRespository;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,27 @@ public class OrderService {
         //TODO: Eine Weitere Email an info@zowiac.eu
 
     }
+
+
+    public void sendParticipationFollowup(Long[] ids, String username) throws Exception {
+        for (Long id : ids) {
+            OrderEntity order = getOrderRespository().findById(id).get();
+            for (OrderPositionEntity visitor : order.getVisitors()) {
+                if (!visitor.isFollowup()) {
+                    if (visitor.getEmail() != null && !visitor.getEmail().isEmpty()) {
+                        getEmailService().sendMail(visitor.getEmail(), EmailText.KONF_NAME + ": Zugang zu den Vorträgen und weiteren Materialien", EmailText.createTeilnahmeFollowup(visitor));
+                        visitor.setFollowup(true);
+                        order.getOrderLogs().add(new OrderLogEntity(order, username, "Followup für " + visitor.getEmail() + " wurde versendet"));
+                    } else {
+                        visitor.setFollowup(true);
+                        order.getOrderLogs().add(new OrderLogEntity(order, username, "Followup für " + visitor.getName() + " konnte nicht versendet werden"));
+                    }
+                }
+            }
+            getOrderRespository().save(order);
+        }
+    }
+
 
     public void cancelOrder(Long orderId, String userName) {
         OrderEntity order = getOrderRespository().findById(orderId).get();

@@ -29,6 +29,13 @@ Ext.define('zowiac.view.evidenceType.EvidenceTypeForm', {
         allowBlank: false,
         msgTarget: 'under'
     }, {
+        fieldLabel: 'Art (englisch)',
+        name: 'nameEn',
+        labelWidth: 120,
+        width: '100%',
+        allowBlank: false,
+        msgTarget: 'under'
+    }, {
         fieldLabel: 'Standard',
         name: 'preselect',
         xtype: 'combobox',

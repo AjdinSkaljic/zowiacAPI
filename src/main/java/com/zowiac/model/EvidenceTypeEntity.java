@@ -12,6 +12,10 @@ public class EvidenceTypeEntity {
     @Column(name = "name")
     private String name;
     @Basic
+    @Column(name = "name_en")
+    private String nameEn;
+
+    @Basic
     @Column(name = "hunting")
     private String hunting;
     @Basic
@@ -59,5 +63,13 @@ public class EvidenceTypeEntity {
 
     public void setDisplayAuthorities(String displayAuthorities) {
         this.displayAuthorities = displayAuthorities;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 }
