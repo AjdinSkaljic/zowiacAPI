@@ -18,11 +18,18 @@ public class AnimalEntity {
     @Column(name = "name")
     private String name;
     @Basic
+    @Column(name = "name_en")
+    private String nameEn;
+    @Basic
     @Column(name = "scientific_name")
     private String scientificName;
     @Basic
     @Column(name = "category")
     private String category;
+
+    @Basic
+    @Column(name = "category_en")
+    private String categoryEn;
     @Basic
     @Column(name = "description")
     private String description;
@@ -144,10 +151,25 @@ public class AnimalEntity {
         this.reportType = reportType;
     }
 
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
+    }
+
+    public String getCategoryEn() {
+        return categoryEn;
+    }
+
+    public void setCategoryEn(String categoryEn) {
+        this.categoryEn = categoryEn;
+    }
+
     public Long getParentId() {
         return parentId;
     }
-
 
 
     public void setParentId(Long parentId) {

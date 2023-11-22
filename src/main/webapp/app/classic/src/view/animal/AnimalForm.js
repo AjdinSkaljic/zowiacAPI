@@ -30,8 +30,21 @@ Ext.define('zowiac.view.animal.AnimalForm', {
         msgTarget: 'under'
     }, {
         allowBlank: false,
+        fieldLabel: 'Name (englisch)',
+        name: 'nameEn',
+        labelWidth: 120,
+        width: '100%',
+        msgTarget: 'under'
+    }, {
+        allowBlank: false,
         fieldLabel: 'Wissenschaftlicher Name',
         name: 'scientificName',
+        labelWidth: 120,
+        width: '100%',
+        msgTarget: 'under'
+    }, {
+        fieldLabel: 'Kategorie (englisch)',
+        name: 'categoryEn',
         labelWidth: 120,
         width: '100%',
         msgTarget: 'under'

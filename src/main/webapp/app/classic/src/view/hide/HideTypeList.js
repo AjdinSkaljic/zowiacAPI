@@ -49,6 +49,10 @@ Ext.define('zowiac.view.hide.HideTypeList', {
         dataIndex: 'name',
         flex: 1
     }, {
+        text: 'Name (englisch)',
+        dataIndex: 'nameEn',
+        flex: 1
+    }, {
         text: 'Beschreibung',
         dataIndex: 'description',
         flex: 1

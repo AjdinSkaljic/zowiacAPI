@@ -14,7 +14,6 @@ public class EvidenceTypeEntity {
     @Basic
     @Column(name = "name_en")
     private String nameEn;
-
     @Basic
     @Column(name = "hunting")
     private String hunting;
@@ -40,6 +39,7 @@ public class EvidenceTypeEntity {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getHunting() {
         return hunting;

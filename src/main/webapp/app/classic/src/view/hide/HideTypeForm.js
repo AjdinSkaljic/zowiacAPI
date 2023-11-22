@@ -29,6 +29,13 @@ Ext.define('zowiac.view.hide.HideTypeForm', {
         allowBlank: false,
         msgTarget: 'under'
     }, {
+        fieldLabel: 'Name (englisch)',
+        name: 'nameEn',
+        labelWidth: 120,
+        width: '100%',
+        allowBlank: false,
+        msgTarget: 'under'
+    }, {
         fieldLabel: 'Beschreibung',
         name: 'description',
         labelWidth: 120,

@@ -53,7 +53,6 @@ public class OrderService {
             logger.log(Level.SEVERE, "Fehler beim versenden der Bestellbestätigung", e);
         }
 
-        //TODO: Eine Weitere Email an info@zowiac.eu
 
     }
 

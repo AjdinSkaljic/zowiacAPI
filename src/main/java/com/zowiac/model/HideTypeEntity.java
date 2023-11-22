@@ -13,6 +13,9 @@ public class HideTypeEntity {
     @Column(name = "name")
     private String name;
     @Basic
+    @Column(name = "name_en")
+    private String nameEn;
+    @Basic
     @Column(name = "description")
     private String description;
 
@@ -30,6 +33,14 @@ public class HideTypeEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
     public String getDescription() {

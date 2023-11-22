@@ -1,5 +1,22 @@
 
 
+#App in englisch
+
+# add colums: name_en und category_en
+alter table hide_types
+    add name_en VARCHAR(64) null after name;
+
+
+SET FOREIGN_KEY_CHECKS=0;
+delete from animals;
+
+#Import from file
+SET FOREIGN_KEY_CHECKS=1;
+
+
+
+
+
 ALTER TABLE `zowiac_map`.`users`
     CHANGE COLUMN `zowiac` `language` VARCHAR(2) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_bin' NOT  NULL DEFAULT 'DE';
 

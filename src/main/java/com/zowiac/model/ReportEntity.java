@@ -299,7 +299,17 @@ public class ReportEntity {
         return "";
     }
 
+    public String getAnimalNameEn() {
+        if (getAnimalEntity() != null) return getAnimalEntity().getNameEn();
+        return "";
+    }
+
     public String getSubAnimalName() {
+        if (getSubAnimalEntity() != null) return getSubAnimalEntity().getName();
+        return "";
+    }
+
+    public String getSubAnimalNameEn() {
         if (getSubAnimalEntity() != null) return getSubAnimalEntity().getName();
         return "";
     }
@@ -316,6 +326,11 @@ public class ReportEntity {
 
     public String getEvidenceTypeName() {
         if (getEvidenceTypeEntity() != null) return getEvidenceTypeEntity().getName();
+        return "";
+    }
+
+    public String getEvidenceTypeNameEn() {
+        if (getEvidenceTypeEntity() != null) return getEvidenceTypeEntity().getNameEn();
         return "";
     }
 
@@ -381,4 +396,6 @@ public class ReportEntity {
     public void setHuntingRadius(Double huntingRadius) {
         this.huntingRadius = huntingRadius;
     }
+
+
 }

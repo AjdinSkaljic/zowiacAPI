@@ -44,9 +44,13 @@ Ext.define('zowiac.view.animal.AnimalList', {
         text: 'ID',
         dataIndex: 'id',
         width: 40
-    },{
+    }, {
         text: 'Name',
         dataIndex: 'name',
+        flex: 1
+    }, {
+        text: 'Name (englisch)',
+        dataIndex: 'nameEn',
         flex: 1
     }, {
         text: 'Wissenschaftlicher  Name',
@@ -62,41 +66,45 @@ Ext.define('zowiac.view.animal.AnimalList', {
         dataIndex: 'category',
         flex: 1
     }, {
+        text: 'Kategorie (englisch)',
+        dataIndex: 'categoryEn',
+        flex: 1
+    }, {
         text: 'Unterart von',
         dataIndex: 'parentName',
         flex: 1
-    },{
+    }, {
         text: 'Meldung erlaubt',
         dataIndex: 'allowReport',
         width: 150,
         renderer: function (val) {
-            return  zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.yesNo, val);
+            return zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.yesNo, val);
         }
     }, {
         text: 'Meldungsart',
         dataIndex: 'reportType',
         width: 150,
         renderer: function (val) {
-            return  zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.reportType, val);
+            return zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.reportType, val);
         }
     }, {
         text: 'Aktueller Bestand',
         dataIndex: 'actualPopulation',
         width: 150,
         renderer: function (val) {
-            return  zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.population, val);
+            return zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.population, val);
         }
     }, {
         text: 'langfristiger Bestandstrend',
         dataIndex: 'forecastPopulation',
         width: 150,
         renderer: function (val) {
-            return  zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.forecastPopulation, val);
+            return zowiac.commons.DataValues.getValueByKey(zowiac.commons.DataValues.forecastPopulation, val);
         }
     }, {
         text: 'Erstbeschreiber',
         dataIndex: 'firstDescriber',
         width: 150,
-        hidden:true
+        hidden: true
     }]
 });

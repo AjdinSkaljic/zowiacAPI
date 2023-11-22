@@ -1,11 +1,5 @@
-/**
- * The main application class. An instance of this class is created by app.js when it
- * calls Ext.application(). This is the ideal place to handle application launch and
- * initialization details.
- */
 Ext.define('zowiac.Application', {
     extend: 'Ext.app.Application',
-
 
     name: 'zowiac',
 
@@ -26,5 +20,5 @@ Ext.define('zowiac.Application', {
         );
     }
 });
-const urlPrefix = '../';
-//const urlPrefix = ''; //Production
+//const urlPrefix = '../';
+const urlPrefix = ''; //Production
