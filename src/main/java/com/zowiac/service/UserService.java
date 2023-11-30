@@ -44,6 +44,7 @@ public class UserService {
         userToUpdate.setSkipTutorial(userEntity.getSkipTutorial());
         userToUpdate.setSkipTutorialReport(userEntity.getSkipTutorialReport());
         userToUpdate.setHunter(userEntity.getHunter());
+        userToUpdate.setLanguage(userEntity.getLanguage());
         getUserRepository().saveAndFlush(userToUpdate);
     }
 
@@ -152,6 +153,10 @@ public class UserService {
         newUser.setHunter(user.getHunter());
         newUser.setSkipTutorial("N");
         newUser.setSkipTutorialReport("N");
+        if (user.getLanguage() == null || user.getLanguage().isEmpty())
+            newUser.setLanguage("de");
+        else
+            newUser.setLanguage(user.getLanguage());
         newUser.setPinData();
 
         getUserRepository().saveAndFlush(newUser);
