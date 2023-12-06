@@ -19,13 +19,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserRolesRepository userRolesRepository;
     private final EmailService emailService;
+    private final ReportService reportService;
 
 
     @Autowired
-    public UserService(UserRepository userRepository, UserRolesRepository userRolesRepository, EmailService emailService) {
+    public UserService(UserRepository userRepository, UserRolesRepository userRolesRepository, EmailService emailService, ReportService reportService) {
         this.userRepository = userRepository;
         this.userRolesRepository = userRolesRepository;
         this.emailService = emailService;
+        this.reportService = reportService;
     }
 
     public void delete(String username) {
@@ -34,6 +36,8 @@ public class UserService {
 
         UserEntity user = getUserRepository().findById(username).get();
         getUserRepository().delete(user);
+
+        getReportService().renameUser(username, "deleted_" + username);
     }
 
     public void updateUser(UserEntity userEntity) {
@@ -202,6 +206,9 @@ public class UserService {
         return emailService;
     }
 
+    public ReportService getReportService() {
+        return reportService;
+    }
 
     public static void main(String args[]) throws Exception {
         System.out.println(convertPwd("88888888"));

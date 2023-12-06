@@ -71,6 +71,18 @@ public class AppController {
     }
 
 
+    @PostMapping("/app/deleteUser")
+    @ResponseBody
+    public String deleteUser(HttpServletRequest request) {
+        try {
+            getUserService().delete(request.getRemoteUser());
+        } catch (Exception e) {
+            return "error";
+        }
+        return "ok";
+    }
+
+
     @GetMapping("/public/forgotPassword/{user}/")
     @ResponseBody
     public String forgotPassword(@PathVariable(name = "user") String user) throws Exception {

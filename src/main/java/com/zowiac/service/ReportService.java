@@ -100,15 +100,16 @@ public class ReportService {
     }
 
     public ReportEntity save(ReportEntity report) {
-        /*if (getNewsRepository().existsById(news.getId())) {
-            news.setChangeDate(new Date(System.currentTimeMillis()));
-            news.setChangeTime(new Time(System.currentTimeMillis()));
-        } else {
-            news.setCreateDate(new Date(System.currentTimeMillis()));
-            news.setCreateTime(new Time(System.currentTimeMillis()));
-        }*/
         getReportRepository().saveAndFlush(report);
         return report;
+    }
+
+    public void renameUser(String oldUser, String newUser) {
+        List<ReportEntity> reportEntityList = getReportRepository().findByUser(oldUser);
+        reportEntityList.forEach(reportEntity -> {
+            reportEntity.setUser(newUser);
+            save(reportEntity);
+        });
     }
 
     public ReportRepository getReportRepository() {
