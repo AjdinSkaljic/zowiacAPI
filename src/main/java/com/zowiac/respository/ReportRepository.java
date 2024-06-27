@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,4 +20,7 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Long> {
 
     @Query(value = "select r from ReportEntity r where r.user = :user and r.deleted is null order by r.date desc, r.time desc")
     List<ReportEntity> findByUser(@Param("user") String user);
+
+    @Query(value = "select r from ReportEntity r where r.animalId = :animalId and date >= :from and date <= :to and r.deleted is null order by r.date desc, r.time desc")
+    List<ReportEntity> findByAnimalAndPeriod(@Param("animalId") Long animalId, @Param("from") Date from, @Param("to") Date to);
 }

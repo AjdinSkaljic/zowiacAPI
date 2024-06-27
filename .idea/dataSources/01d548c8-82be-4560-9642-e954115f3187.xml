@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="zowiac_map@localhost">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
-    <root id="1">
-      <DefaultEngine>InnoDB</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <ServerVersion>8.0.22</ServerVersion>
-    </root>
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.52">
+    <root id="1"/>
     <collation id="2" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
     </collation>
@@ -889,8 +885,7 @@
     </schema>
     <schema id="282" parent="1" name="zowiac_map">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-22.14:05:20</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-22.11:05:20</LocalIntrospectionTimestamp>
+      <LastIntrospectionLocalTimestamp>2023-11-22.11:05:20</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="283" parent="1" name="mysql.infoschema">

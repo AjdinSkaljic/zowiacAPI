@@ -19,4 +19,5 @@ public interface AnimalRepository extends JpaRepository<AnimalEntity, Long> {
 
     @Query(value = "select n from AnimalEntity  n where n.allowReport = 'J' and n.reportType = :reportType")
     List<AnimalEntity> findByReportType(@Param("reportType") String reportType);
+
 }
