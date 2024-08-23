@@ -65,8 +65,13 @@ public class ReportService {
                     reportEntity.setHuntingHideName(hide.getName());
             }
 
-            if (reportEntity.getUser() != null && !reportEntity.getUser().isEmpty())
-                reportEntity.setUserEntity(getUserRepository().findById(reportEntity.getUser()).orElseGet(null));
+            if (reportEntity.getUser() != null && !reportEntity.getUser().isEmpty()) {
+                try {
+                    reportEntity.setUserEntity(getUserRepository().findById(reportEntity.getUser()).orElseGet(null));
+                }catch (Exception e){
+                    reportEntity.setUserEntity(null);
+                }
+            }
 
 
         });

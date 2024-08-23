@@ -1,0 +1,21 @@
+<component name="libraryTable">
+  <library name="springframework.data.spring.jpa1" type="repository">
+    <properties maven-id="org.springframework.data:spring-data-jpa:2.7.1" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-jpa/2.7.1/spring-data-jpa-2.7.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/2.7.1/spring-data-commons-2.7.1.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-orm/5.3.21/spring-orm-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jdbc/5.3.21/spring-jdbc-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.3.21/spring-context-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-expression/5.3.21/spring-expression-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.3.21/spring-aop-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-tx/5.3.21/spring-tx-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/5.3.21/spring-beans-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/5.3.21/spring-core-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jcl/5.3.21/spring-jcl-5.3.21.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.32/slf4j-api-1.7.32.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
