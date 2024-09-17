@@ -35,7 +35,8 @@ public class MapService {
         List<ReportEntity> reportList = getReportRepository().findByAnimalAndPeriod(animalId, from, to);
         if (reportList != null) {
             for (ReportEntity report : reportList) {
-                if(report.getLatitude()!=null && report.getLongitude()!=null) {
+                if (report.getLatitude() != null && report.getLongitude() != null
+                        && report.getLatitude().doubleValue() != 0 && report.getLongitude().doubleValue() != 0) {
                     AddressPointData addressPointData = new AddressPointData();
                     addressPointData.setId(report.getId());
                     addressPointData.setAnimalId(report.getAnimalId());
