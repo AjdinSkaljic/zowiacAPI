@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 import javax.mail.util.ByteArrayDataSource;
 
 
@@ -24,7 +25,7 @@ public class EmailService {
         Email email = new SimpleEmail();
         email.setHostName(hostName);
         email.setSmtpPort(port);
-        email.setAuthenticator(new DefaultAuthenticator("info@zowiac.eu", "A4yimdjYk2ySX9q"));
+        email.setAuthenticator(getAuthenticator());
         email.setSSLOnConnect(true);
         email.setFrom("info@zowiac.eu");
         email.setSubject(subject);
@@ -53,7 +54,12 @@ public class EmailService {
 
 
     private Authenticator getAuthenticator() {
-        return new DefaultAuthenticator("info@zowiac.eu", "A4yimdjYk2ySX9q");
+        return new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("info@zowiac.eu", "A4yimdjYk2ySX9q");
+            }
+        };
     }
 
 }

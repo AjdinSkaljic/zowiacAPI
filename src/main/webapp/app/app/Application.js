@@ -20,5 +20,5 @@ Ext.define('zowiac.Application', {
         );
     }
 });
-//const urlPrefix = '../';
-const urlPrefix = ''; //Production
+const urlPrefix = '../';
+//const urlPrefix = ''; //Production
