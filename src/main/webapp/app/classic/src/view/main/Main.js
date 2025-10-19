@@ -25,7 +25,7 @@ Ext.define('zowiac.view.main.Main', {
         'zowiac.view.users.UsersList',
         'zowiac.view.feedback.FeedbackList',
         'zowiac.view.evidenceType.EvidenceTypeList',
-        'zowiac.view.order.OrderList'    ],
+        'zowiac.view.order.OrderList'],
 
     controller: 'main',
 
@@ -110,7 +110,7 @@ Ext.define('zowiac.view.main.Main', {
             xtype: 'orderList',
             flex: 1
         }]
-    },{
+    }, {
         title: 'Tierart',
         iconCls: 'fa-paw',
         layout: {
@@ -152,19 +152,6 @@ Ext.define('zowiac.view.main.Main', {
             flex: 1
         }]
     }, {
-        title: 'Jagdzeiten',
-        iconCls: 'fa-calendar-alt',
-        layout: {
-            type: 'vbox',
-            pack: 'start',
-            align: 'stretch'
-
-        },
-        items: [{
-            xtype: 'shootingSeasonList',
-            flex: 1
-        }]
-    }, {
         title: 'Art der Sichtungen',
         iconCls: 'fa-binoculars',
         layout: {
@@ -175,6 +162,19 @@ Ext.define('zowiac.view.main.Main', {
         },
         items: [{
             xtype: 'evidenceTypeList',
+            flex: 1
+        }]
+    }, {
+        title: 'Jagdzeiten',
+        iconCls: 'fa-calendar-alt',
+        layout: {
+            type: 'vbox',
+            pack: 'start',
+            align: 'stretch'
+
+        },
+        items: [{
+            xtype: 'shootingSeasonList',
             flex: 1
         }]
     }, {

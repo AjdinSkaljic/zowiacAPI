@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 @Component
 public class OrderService {
-    private Logger logger = Logger.getLogger(OrderService.class.getName());
+    private final Logger logger = Logger.getLogger(OrderService.class.getName());
 
     private final OrderRespository orderRespository;
     private final EmailService emailService;

@@ -1,19 +1,13 @@
 package com.zowiac.service;
 
-import org.apache.commons.mail.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.util.ByteArrayDataSource;
 
 
 @Component
 public class EmailService {
-    private final static int port = 465;
-    private final static String hostName = "smtp.strato.de";
     private final JavaMailSender mailSender;
 
     @Autowired
@@ -21,46 +15,36 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(String to, String subject, String body) throws Exception {
-        Email email = new SimpleEmail();
-        email.setHostName(hostName);
-        email.setSmtpPort(port);
-        email.setAuthenticator(getAuthenticator());
-        email.setSSLOnConnect(true);
-        email.setFrom("info@zowiac.eu");
+    public void sendMail(String to, String subject, String body)  {
+        SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(to);
         email.setSubject(subject);
-        email.setMsg(body);
-        email.addTo(to);
-        email.send();
+        email.setText(body);
+        email.setFrom("info@zowiac.eu");
+        mailSender.send(email);
     }
 
 
     public void sendMail(String to, String subject, String body, String attachmentName, byte[] pdfAsBytes) throws Exception {
-        MultiPartEmail email = new MultiPartEmail();
-        email.setHostName(hostName);
-        email.setSmtpPort(port);
-        email.setAuthenticator(getAuthenticator());
-        email.setSSLOnConnect(true);
-        email.setFrom("info@zowiac.eu");
-        email.setSubject(subject);
-        email.setMsg(body);
-        email.addTo(to);
-        email.attach(new ByteArrayDataSource(pdfAsBytes, "application/pdf"), attachmentName + ".pdf", "application/pdf");
-        email.send();
+        javax.mail.internet.MimeMessage mimeMessage = mailSender.createMimeMessage();
 
-        //Kopie senden an debitoren@verwaltung.uni-frankfurt.de
-        //Test geht an wenz@em.uni-frankfurt.de
+        org.springframework.mail.javamail.MimeMessageHelper helper =
+                new org.springframework.mail.javamail.MimeMessageHelper(mimeMessage, true);
+
+        helper.setFrom("info@zowiac.eu");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(body);
+
+        org.springframework.core.io.ByteArrayResource attachment =
+                new org.springframework.core.io.ByteArrayResource(pdfAsBytes);
+
+        helper.addAttachment(attachmentName + ".pdf", attachment, "application/pdf");
+
+        // E-Mail senden
+        mailSender.send(mimeMessage);
     }
 
-
-    private Authenticator getAuthenticator() {
-        return new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("info@zowiac.eu", "A4yimdjYk2ySX9q");
-            }
-        };
-    }
 
 }
 

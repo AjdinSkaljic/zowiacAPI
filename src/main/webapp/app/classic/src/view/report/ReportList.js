@@ -86,8 +86,6 @@ Ext.define('zowiac.view.report.ReportList', {
             flex: 1
 
         },
-
-
         {text: 'Benutzername', dataIndex: 'userName', flex: 1},
         {text: 'Benutzer', dataIndex: 'user', flex: 1, hidden: true},
         {text: 'Standort', dataIndex: 'adressLine', flex: 1},

@@ -69,13 +69,11 @@
         </property>
     </bean>
 
-
     <context:annotation-config/>
     <context:component-scan base-package="com.zowiac"/>
     <mvc:annotation-driven/>
     <jpa:repositories base-package="com.zowiac" entity-manager-factory-ref="emf"/>
-    <tx:annotation-driven proxy-target-class="true"
-                          transaction-manager="transactionManager"/>
+    <tx:annotation-driven proxy-target-class="true"/>
 
 </beans>
 
