@@ -56,7 +56,7 @@
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.strato.de"/>
         <property name="username" value="info@zowiac.eu"/>
-        <property name="password" value="A4yimdjYk2ySX9q"/>
+        <property name="password" value="KK3==?HH55!/GGsss"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.transport.protocol">smtps</prop>

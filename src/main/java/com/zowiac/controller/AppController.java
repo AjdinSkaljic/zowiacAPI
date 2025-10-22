@@ -32,9 +32,7 @@ public class AppController {
     private final FeedbackService feedbackService;
 
     @Autowired
-    public AppController(ApplicationService applicationService, ReportService reportService, FilesService filesService, AnimalService animalService, TextService textService,
-                         ShootingSeasonService shootingSeasonService, AuthorityService authorityService, HideService hideService, UserService userService,
-                         FeedbackService feedbackService) {
+    public AppController(ApplicationService applicationService, ReportService reportService, FilesService filesService, AnimalService animalService, TextService textService, ShootingSeasonService shootingSeasonService, AuthorityService authorityService, HideService hideService, UserService userService, FeedbackService feedbackService) {
         this.applicationService = applicationService;
         this.reportService = reportService;
         this.filesService = filesService;
@@ -144,8 +142,7 @@ public class AppController {
 
 
     @PostMapping("/app/files/report/{originId}")
-    public @ResponseBody
-    String saveReportFile(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
+    public @ResponseBody String saveReportFile(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
         try {
             FilesEntity filesEntity = createFileEntityFromRequest(file);
             getFilesService().saveReportFile(filesEntity, originId);
@@ -158,8 +155,7 @@ public class AppController {
     }
 
     @PostMapping("/app/files/hide/{originId}")
-    public @ResponseBody
-    String saveHideFile(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
+    public @ResponseBody String saveHideFile(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
         try {
             FilesEntity filesEntity = createFileEntityFromRequest(file);
             getFilesService().saveHideFile(filesEntity, originId);
@@ -194,8 +190,7 @@ public class AppController {
         String reportType = reportTypeIn;
         if (reportType != null && !reportType.equals(AnimalEntity.REPORT_TYPE_ZOWIAC)) {
             UserEntity user = getUserService().findUser(request.getRemoteUser());
-            if (user != null && user.isHunter())
-                reportType = AnimalEntity.REPORT_TYPE_HUNTING;
+            if (user != null && user.isHunter()) reportType = AnimalEntity.REPORT_TYPE_HUNTING;
         }
         return getAnimalService().findOnlyReporting(reportType);
     }
@@ -248,8 +243,7 @@ public class AppController {
 
 
     @PostMapping("/public/files/report/{originId}")
-    public @ResponseBody
-    String saveReportFilePublic(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
+    public @ResponseBody String saveReportFilePublic(@RequestParam("file") MultipartFile file, @PathVariable("originId") UUID originId) {
         try {
             FilesEntity filesEntity = createFileEntityFromRequest(file);
             getFilesService().saveReportFile(filesEntity, originId);
@@ -267,12 +261,17 @@ public class AppController {
     }
 
 
-    @PostMapping("/app/hides")
+    @PostMapping(value = "/app/hides", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public HideEntity save(HttpServletRequest request, @RequestBody HideEntity hide) {
         hide.setUserName(request.getRemoteUser());
         getHideService().save(hide);
         return hide;
+    }
+
+    @DeleteMapping(value = {"/app/hides/{id}"})
+    public void delete(@PathVariable("id") Long id) {
+        getHideService().delete(id);
     }
 
     public ApplicationService getApplicationService() {
